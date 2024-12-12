@@ -1,26 +1,43 @@
 {
-  "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@api": ["src/api/index.ts"],
+			"@assets": ["src/assets/index.ts"],
+			"@atoms": ["src/components/atoms/index.ts"],
+			"@layouts": ["src/components/layouts/index.ts"],
+			"@molecules": ["src/components/molecules/index.ts"],
+			"@organisms": ["src/components/organisms/index.ts"],
+			"@constants": ["src/constants/index.ts"],
+			"@hooks": ["src/hooks/index.ts"],
+			"@interfaces": ["src/interfaces/index.ts"],
+			"@pages": ["src/pages/index.ts"],
+			"@router": ["src/router/index.ts"],
+			"@store": ["src/store/index.ts"],
+			"@styles/*": ["src/styles/"],
+			"@utils": ["src/utils/index.ts"]
+		},
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"noEmit": true,
+		"jsx": "react-jsx",
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
-  },
-  "include": ["src"]
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
+	},
+	"include": ["src"]
 }
