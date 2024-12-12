@@ -1,22 +1,28 @@
 {
-  "name": "tenk-dashboard",
+  "name": "10k-scoreboard",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "i18next": "^24.0.5",
+    "i18next-browser-languagedetector": "^8.0.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.1.3",
+    "react-router-dom": "^7.0.2",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
@@ -28,8 +34,8 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.12.0",
     "postcss": "^8.4.49",
+    "postcss-import": "^16.1.0",
     "prettier": "^3.4.2",
-    "sass": "^1.82.0",
     "tailwindcss": "^3.4.16",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.15.0",
