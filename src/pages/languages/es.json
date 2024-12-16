@@ -1,4 +1,11 @@
 {
-  "spanish": "Español",
-  "english": "Inglés"
+  "header": {
+    "spanish": "Español",
+    "english": "Inglés"
+  },
+  "wellcomePage": {
+    "title": "Bienvenidos",
+    "name": "10.000 puntaje",
+    "button": "Comenzar"
+  }
 }

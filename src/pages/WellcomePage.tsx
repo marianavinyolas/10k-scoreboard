@@ -1,69 +1,73 @@
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import i18next from 'i18next'
-import { spainFlag, usaFlag } from '@assets'
+import { ToggleButton } from '@molecules'
+import { IcMoon, IcSun } from '@atoms'
+import { useTranslation } from 'react-i18next'
 
 const WellcomePage = () => {
+	const { t } = useTranslation('Pages')
+	const currentLanguage = localStorage.getItem('LANGUAGE') || 'es'
+	const currentTheme = localStorage.getItem('THEME') || 'light'
 
-	const currentLanguage = localStorage.getItem('LANGUAGE')
-	const [selectedLanguage, setSelectedLanguage] = useState('')
-	const [showFlags, setShowFlags] = useState(true)
+	const [selectedLanguage, setSelectedLanguage] =
+		useState<string>(currentLanguage)
+	const [selectedTheme, setSelectedTheme] = useState<string>(currentTheme)
+
 	useEffect(() => {
-		setSelectedLanguage(currentLanguage ?? 'es')
-	}, [currentLanguage])
+		localStorage.setItem('LANGUAGE', selectedLanguage)
+		i18next.changeLanguage(selectedLanguage)
+	}, [selectedLanguage])
 
-	const handleChangeLanguage = (language: string) => {
-		setSelectedLanguage(language)
-		i18next.changeLanguage(language)
-		setShowFlags(false)
-		localStorage.setItem('LANGUAGE', language)
+	useEffect(() => {
+		document.documentElement.classList.toggle('dark', selectedTheme === 'dark')
+		localStorage.setItem('THEME', selectedTheme)
+	}, [selectedTheme])
+
+	interface ILanguageOptions {
+		[key: string]: string
+	}
+
+	const languageOptions: ILanguageOptions = {
+		es: 'ES',
+		en: 'EN',
+	}
+
+	interface IThemeOptions {
+		[key: string]: ReactNode
+	}
+
+	const themeOptions: IThemeOptions = {
+		light: <IcSun className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />,
+		dark: <IcMoon className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />,
 	}
 
 	return (
-		<main className='w-screen h-screen  text-black dark:text-white flex flex-col relative'>
-			<header className='absolute top-10 right-10'>
-				<div className='bg-white'>
-					{showFlags && (
-						<section className='language-select'>
-							<button
-								className='language-btn'
-								onClick={() => handleChangeLanguage('es')}
-							>
-								<img
-									src={spainFlag}
-									className='flag'
-									alt='Spanish language flag'
-								/>
-							</button>
-							<span
-								className='language-btn'
-								onClick={() => handleChangeLanguage('en')}
-							>
-								<img
-									src={usaFlag}
-									className='flag'
-									alt='English language flag'
-								/>
-							</span>
-						</section>
-					)}
-				</div>
-				{selectedLanguage === 'es' && (
-					<section
-						className='cursor-pointer p-2 rounded border border-neutral-300'
-						onClick={() => setShowFlags(!showFlags)}
+		<main className='w-screen h-screen  text-neutral-700 dark:text-neutral-300 flex flex-col items-center font-mono'>
+			<header className='w-[90%] sm:w-[80%] md:w-[70%] border border-pink-300'>
+				<section className='flex justify-end gap-2 p-4'>
+					<ToggleButton
+						options={languageOptions}
+						currentValue={selectedLanguage}
+						onChange={setSelectedLanguage}
 					>
-						<img src={spainFlag} className='flag' alt='Spanish language flag' />
-					</section>
-				)}
-				{selectedLanguage === 'en' && (
-					<section
-						className='cursor-pointer p-2 rounded  border border-neutral-300'
-						onClick={() => setShowFlags(!showFlags)}
+						<p className='text-sm font-semibold'>
+							{languageOptions[selectedLanguage] ?? ''}
+						</p>
+					</ToggleButton>
+					<ToggleButton
+						options={themeOptions}
+						currentValue={selectedTheme}
+						onChange={setSelectedTheme}
 					>
-						<img src={usaFlag} className='flag' alt='English language flag' />
-					</section>
-				)}
+						{themeOptions[selectedTheme] ?? <></>}
+					</ToggleButton>
+				</section>
 			</header>
+			<section className='flex flex-col items-center'>
+				<h1>{`${t('wellcomePage.title')}`}</h1>
+				<h1>{`${t('wellcomePage.name')}`}</h1>
+				<button>{`${t('wellcomePage.button')}`}</button>
+			</section>
 		</main>
 	)
 }

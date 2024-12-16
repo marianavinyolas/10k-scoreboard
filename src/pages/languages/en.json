@@ -1,4 +1,11 @@
 {
-  "spanish": "Spanish",
-  "english": "English"
+  "header": {
+    "spanish": "Spanish",
+    "english": "English"
+  },
+  "wellcomePage": {
+    "title": "Wellcome",
+    "name": "10.000 scoreboard",
+    "button": "Start"
+  }
 }

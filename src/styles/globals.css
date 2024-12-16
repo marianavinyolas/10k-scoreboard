@@ -3,14 +3,10 @@
 @tailwind utilities;
 
 :root {
-	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	/* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
 	line-height: 1.5;
 	font-weight: 400;
-
 	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	/* background-color: #c01d1d; */
-
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -25,21 +21,13 @@
 	column-gap: 8px;
 }
 
-.flag {
-	width: 26px;
-	object-fit: fill;
-}
-
 .language-select {
 	position: absolute;
-	border-radius: 4px;
 	right: 0px;
-	top: 46px;
+	top: 36px;
 	z-index: 1;
-	padding:  8px;
 	display: flex;
 	flex-direction: column;
 	row-gap: 8px;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.15);
 }
 
