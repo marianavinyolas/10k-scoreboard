@@ -7,5 +7,13 @@
     "title": "Wellcome",
     "name": "10.000",
     "button": "Start"
+  },
+  "playersPage": {
+    "title": "Add players",
+    "text": "Add at least 2 players to continue",
+    "inputLabel": "Name",
+    "inputWarning": "This name already exist!",
+    "buttonContinue": "Continue",
+    "buttonAdd": "Add another"
   }
 }
