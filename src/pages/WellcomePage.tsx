@@ -1,11 +1,15 @@
 import { ReactNode, useEffect, useState } from 'react'
 import i18next from 'i18next'
-import { ToggleButton } from '@molecules'
+import { ToggleButton, TypingMachine } from '@molecules'
 import { IcMoon, IcSun } from '@atoms'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+
+
 
 const WellcomePage = () => {
 	const { t } = useTranslation('Pages')
+	const navigate = useNavigate()
 	const currentLanguage = localStorage.getItem('LANGUAGE') || 'es'
 	const currentTheme = localStorage.getItem('THEME') || 'light'
 
@@ -42,9 +46,9 @@ const WellcomePage = () => {
 	}
 
 	return (
-		<main className='w-screen h-screen  text-neutral-700 dark:text-neutral-300 flex flex-col items-center font-mono'>
-			<header className='w-[90%] sm:w-[80%] md:w-[70%] border border-pink-300'>
-				<section className='flex justify-end gap-2 p-4'>
+		<main className='w-screen h-screen  text-neutral-700 dark:text-neutral-300 flex flex-col items-center p-10'>
+			<header className='w-full'>
+				<section className='flex justify-end gap-2'>
 					<ToggleButton
 						options={languageOptions}
 						currentValue={selectedLanguage}
@@ -63,10 +67,9 @@ const WellcomePage = () => {
 					</ToggleButton>
 				</section>
 			</header>
-			<section className='flex flex-col items-center'>
-				<h1>{`${t('wellcomePage.title')}`}</h1>
-				<h1>{`${t('wellcomePage.name')}`}</h1>
-				<button>{`${t('wellcomePage.button')}`}</button>
+			<section className='w-full h-full flex flex-col items-center justify-around'>
+				<TypingMachine text={`${t('wellcomePage.name')}`} speed={200} className='text-6xl'/>
+				<button onClick={() => navigate('/players')} className='bg-indigo-500 text-white text-lg rounded px-8 py-2 animate-bounce '>{`${t('wellcomePage.button')}`}</button>
 			</section>
 		</main>
 	)
