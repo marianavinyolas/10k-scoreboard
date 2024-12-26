@@ -34,6 +34,13 @@ const PlayersPage = () => {
 		}
 	}
 
+	const hdlNext = () => {
+		if (players.length > 1) {
+			localStorage.setItem('PLAYERS', JSON.stringify(players))
+			navigate('/game')
+			}
+	}
+
 	return (
 		<main className='w-screen h-dvh  text-neutral-700 dark:text-neutral-200 flex flex-col gap-[3vh] items-center px-[5vw] py-[3vh]'>
 			<SetupHeader items={['theme']} />
@@ -63,8 +70,8 @@ const PlayersPage = () => {
 							/>
 							<button
 								onClick={hdlAddPlayer}
-								className='bg-sky-700 text-lg px-3 py-2 rounded disabled:bg-sky-800/50'
-								disabled={!newName}
+								className='bg-sky-700 text-lg px-3 py-2 rounded disabled:bg-slate-500'
+								disabled={!newName.trim()}
 							>
 								<IcPlus className='w-6 h-6 fill-neutral-200' />{' '}
 							</button>
@@ -99,9 +106,9 @@ const PlayersPage = () => {
 				</article>
 				<article className='w-full flex justify-center pb-4'>
 					<button
-						onClick={() => navigate('/players')}
+						onClick={hdlNext}
 						disabled={players.length < 2}
-						className='bg-sky-700 text-white text-lg rounded px-8 py-2 disabled:bg-sky-800/50'
+						className='bg-sky-700 text-white text-lg rounded px-8 py-2 disabled:bg-slate-500'
 					>{`${t('playersPage.buttonContinue')}`}</button>
 				</article>
 			</section>
