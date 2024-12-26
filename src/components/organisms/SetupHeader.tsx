@@ -50,7 +50,7 @@ const SetupHeader = ({ items }: ISetupHeaderProps) => {
 						currentValue={selectedLanguage}
 						onChange={setSelectedLanguage}
 					>
-						<p className='text-sm font-semibold'>
+						<p className='text-sm font-semibold font-mono'>
 							{languageOptions[selectedLanguage] ?? ''}
 						</p>
 					</ToggleButton>
