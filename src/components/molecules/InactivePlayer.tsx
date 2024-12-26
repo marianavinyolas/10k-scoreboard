@@ -2,7 +2,7 @@ import { IPlayer } from '@interfaces'
 
 const InactivePlayer = ({ name, id, score }: IPlayer) => {
 	return (
-		<article className='w-[80%] flex gap-2 py-2 border border-slate-500 rounded bg-gray-100 dark:bg-slate-900'>
+		<article className='w-[80%] flex gap-2 py-2 border border-slate-500 rounded bg-gray-100 dark:bg-slate-800'>
 			<div className='w-10 flex justify-center border-r border-slate-500'>
 				{id + 1}
 			</div>

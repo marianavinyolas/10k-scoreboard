@@ -23,7 +23,7 @@ const ActivePlayer: FC<IActivePlayerProps> = ({ player, onAddScore }) => {
 	}
 
 	return (
-		<article className='w-full h-14 flex items-center gap-4 border-2 border-sky-600 rounded bg-sky-100 dark:bg-slate-900 text-lg'>
+		<article className='w-full h-14 flex items-center gap-4 border-2 border-sky-600 rounded bg-sky-100 dark:bg-sky-950 text-lg'>
 			<div className='w-10 flex justify-center border-r border-sky-600'>
 				{player.id + 1}
 			</div>
@@ -39,6 +39,7 @@ const ActivePlayer: FC<IActivePlayerProps> = ({ player, onAddScore }) => {
 					onChange={e => hdlScoreChange(e.target.value)}
 					value={newScore || ''}
 					step={50}
+					min={0}
 					placeholder={t('gamePage.scorePlaceholder')}
 				/>
 				<button
