@@ -1,4 +1,4 @@
-import { PlayersPage, WellcomePage } from '@pages'
+import { GamePage, PlayersPage, WellcomePage } from '@pages'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 const Router = createBrowserRouter([
@@ -13,6 +13,10 @@ const Router = createBrowserRouter([
 	{
 		path: '/players',
 		element: <PlayersPage />,
+	},
+	{
+		path: '/game',
+		element: <GamePage />,
 	},
 	{
 		path: '*',

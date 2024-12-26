@@ -15,5 +15,8 @@
     "inputWarning": "This name already exist!",
     "buttonContinue": "Continue",
     "buttonAdd": "Add another"
+  },
+  "gamePage": {
+    "scorePlaceholder": "Score"
   }
 }

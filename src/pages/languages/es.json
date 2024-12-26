@@ -15,5 +15,8 @@
     "inputWarning": "Este nombre ya existe!",
     "buttonContinue": "Continuar",
     "buttonAdd": "Agregar"
+  },
+  "gamePage": {
+    "scorePlaceholder": "Puntos"
   }
 }
