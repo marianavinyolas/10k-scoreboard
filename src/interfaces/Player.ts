@@ -3,5 +3,6 @@ export interface IPlayer {
 	active: boolean
 	isWinner: boolean
 	score: number
-	position: number
+	position: number | null
+	id: number
 }
