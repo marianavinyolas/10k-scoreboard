@@ -16,7 +16,11 @@
     "buttonContinue": "Continuar",
     "buttonAdd": "Agregar"
   },
+  "leaderboardPage": {
+    "title": "Posiciones"
+  },
   "gamePage": {
-    "scorePlaceholder": "Puntos"
+    "scorePlaceholder": "Puntos",
+    "overflowError": "El puntaje no puede ser mayor a 10.000"
   }
 }

@@ -16,7 +16,11 @@
     "buttonContinue": "Continue",
     "buttonAdd": "Add another"
   },
+  "leaderboardPage": {
+    "title": "Leaderboard"
+  },
   "gamePage": {
-    "scorePlaceholder": "Score"
+    "scorePlaceholder": "Score",
+    "overflowError": "The score can't be higher than 10.000"
   }
 }
