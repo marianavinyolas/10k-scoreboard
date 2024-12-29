@@ -1,16 +1,23 @@
 import { IPlayer } from '@interfaces'
-import { ActivePlayer, InactivePlayer } from '@molecules'
+import { ActivePlayer, CustomConfetti, InactivePlayer } from '@molecules'
 import { GameHeader } from '@organisms'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+
 
 const GamePage = () => {
+		const { t } = useTranslation('Pages')
+	
 	const [playersList, setPlayersList] = useState<IPlayer[]>([])
+	const [isWinner, setIsWinner] = useState(false)
+	const [pointsError, setPointsError] = useState('')
+	const [winnersList, setWinnersList] = useState<IPlayer[]>([])
 
 	useEffect(() => {
-		// Leer los jugadores del localStorage
+		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
 		const players = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
 
-		// Crear el estado inicial para cada jugador
 		const initialPlayers: IPlayer[] = players.map(
 			(item: string, index: number) => ({
 				name: item,
@@ -22,35 +29,39 @@ const GamePage = () => {
 			})
 		)
 
-		setPlayersList(initialPlayers)
+		setPlayersList(scores.length? [...scores] :initialPlayers)
 	}, [])
 
 	const hdlAddScore = (index: number, score: number) => {
+
 		const updatedPlayers = [...playersList]
 		const currentPlayer = updatedPlayers[index]
 
+
+
 		// Verificar si sumar el puntaje actual supera 10000
 		if (currentPlayer.score + score > 10000) {
-			alert(
-				'No se puede superar los 10000 puntos. El puntaje actual no será sumado.'
-			)
+			setPointsError(t('gamePage.overflowError'))
+
 		} else {
+			setPointsError('')
 			// Sumar el puntaje al jugador actual
 			currentPlayer.score += score
 
 			// Verificar si el jugador actual ha ganado
 			if (currentPlayer.score === 10000) {
+				setIsWinner(true)
 				currentPlayer.isWinner = true
-				alert(`${currentPlayer.name} ha ganado el juego con 10000 puntos!`)
-
-			currentPlayer.active = false
-			if (index + 1 < updatedPlayers.length) {
-				updatedPlayers[index + 1].active = true
-			} else {
-				updatedPlayers[0].active = true
-			}
+				currentPlayer.active = false
+				setWinnersList([...winnersList, currentPlayer])
+				if (index + 1 < updatedPlayers.length) {
+					updatedPlayers[index + 1].active = true
+				} else {
+					updatedPlayers[0].active = true
+				}
 			} else {
 				// Avanzar al siguiente jugador
+				setIsWinner(false)
 				currentPlayer.active = false
 				if (index + 1 < updatedPlayers.length) {
 					updatedPlayers[index + 1].active = true
@@ -59,6 +70,7 @@ const GamePage = () => {
 				}
 			}
 		}
+		localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
 
 		setPlayersList(updatedPlayers)
 	}
@@ -66,16 +78,21 @@ const GamePage = () => {
 	return (
 		<main className='w-screen h-dvh  text-neutral-700 dark:text-neutral-200 flex flex-col gap-[3vh] items-center px-[5vw] py-[3vh]'>
 			<GameHeader />
-			<section className='w-full sm:w-[70%] lg:w-[60%] h-full flex flex-col items-center gap-2 sm:gap-4 lg:gap-8'>
-				{playersList.map(player =>
+			{isWinner ? <CustomConfetti
+				onWinner={isWinner}
+				winnerName={playersList.find(item => item.isWinner)?.name ?? ''}
+			/> : <></>}
+			<section className='w-full sm:w-[60%] lg:w-[50%] h-full flex flex-col items-center gap-2 sm:gap-4 lg:gap-8'>
+				{playersList.map((player, idx) =>
 					player.active ? (
 						<ActivePlayer
 							key={player.name}
 							player={player}
 							onAddScore={hdlAddScore}
+							errorMessage={pointsError}
 						/>
 					) : (
-						<InactivePlayer key={player.name} {...player} />
+						<InactivePlayer key={player.name} name={player.name} score={player.score} playerIndex={idx + 1} />
 					)
 				)}
 			</section>
