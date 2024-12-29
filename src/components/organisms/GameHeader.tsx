@@ -1,12 +1,9 @@
 import { IcDices, IcSettings, IcTrophy } from '@atoms'
 import i18next from 'i18next'
 import { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const GameHeader = () => {
-	const navigate = useNavigate()
-	const { pathname } = useLocation()
-
 	useEffect(() => {
 		const currentLanguage = localStorage.getItem('LANGUAGE') || 'es'
 		i18next.changeLanguage(currentLanguage)
@@ -19,31 +16,43 @@ const GameHeader = () => {
 
 	return (
 		<header className='w-full'>
-			<section className='flex justify-end gap-2'>
-				{!pathname.includes('settings') && (
-					<button
-						className='cursor-pointer w-7 h-7 flex items-center justify-center  rounded border border-neutral-500 dark:border-neutral-300'
-						onClick={() => navigate('/settings')}
-					>
-						<IcSettings className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />
-					</button>
-				)}
-				{pathname.includes('game') && (
-					<button
-						className='cursor-pointer w-7 h-7 flex items-center justify-center  rounded border border-neutral-500 dark:border-neutral-300'
-						onClick={() => navigate('/leaderboard')}
-					>
-						<IcTrophy className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />
-					</button>
-				)}
-				{pathname.includes('leaderboard') && (
-					<button
-						className='cursor-pointer w-7 h-7 flex items-center justify-center  rounded border border-neutral-500 dark:border-neutral-300'
-						onClick={() => navigate('/game')}
-					>
-						<IcDices className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />
-					</button>
-				)}
+			<section className='flex justify-end gap-4'>
+				<NavLink
+					to='/settings'
+					className={({ isActive }) =>
+						`cursor-pointer w-8 h-8 flex items-center justify-center rounded ${
+							isActive
+								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-800'
+								: 'border border-neutral-500 dark:border-neutral-300'
+						}`
+					}
+				>
+					<IcSettings className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />
+				</NavLink>
+				<NavLink
+					to='/leaderboard'
+					className={({ isActive }) =>
+						`cursor-pointer w-8 h-8 flex items-center justify-center rounded ${
+							isActive
+								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-800'
+								: 'border border-neutral-500 dark:border-neutral-300'
+						}`
+					}
+				>
+					<IcTrophy className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />
+				</NavLink>
+				<NavLink
+					to='/game'
+					className={({ isActive }) =>
+						`cursor-pointer w-8 h-8 flex items-center justify-center rounded  ${
+							isActive
+								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-800'
+								: 'border border-neutral-500 dark:border-neutral-300'
+						}`
+					}
+				>
+					<IcDices className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />
+				</NavLink>
 			</section>
 		</header>
 	)
