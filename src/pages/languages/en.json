@@ -21,6 +21,8 @@
   },
   "gamePage": {
     "scorePlaceholder": "Score",
-    "overflowError": "The score can't be higher than 10.000"
+    "overflowError": "The score can't be higher than 10.000",
+    "congratulationWinner": "Congratulation",
+    "subtitleWinner": "You reached 10,000 points!"
   }
 }

@@ -21,6 +21,8 @@
   },
   "gamePage": {
     "scorePlaceholder": "Puntos",
-    "overflowError": "El puntaje no puede ser mayor a 10.000"
+    "overflowError": "El puntaje no puede ser mayor a 10.000",
+    "congratulationWinner": "Felicitaciones",
+    "subtitleWinner": "Has alcanzado 10,000 puntos!"
   }
 }
