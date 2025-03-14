@@ -44,7 +44,7 @@ const PlayersPage = () => {
 	return (
 		<main className='w-screen h-dvh  text-neutral-700 dark:text-neutral-200 flex flex-col gap-[3vh] items-center px-[5vw] py-[3vh]'>
 			<SetupHeader items={['theme']} />
-			<section className='w-full sm:w-[70%] lg:w-[60%] h-full flex flex-col items-center gap-2 sm:gap-4 lg:gap-8'>
+			<section className='w-full sm:w-[60%] lg:w-[50%] h-full flex flex-col items-center gap-2 sm:gap-4 lg:gap-8'>
 				<article className='w-full flex flex-col items-center gap-8'>
 					<TypingMachine
 						text={`${t('playersPage.title')}`}
@@ -89,7 +89,7 @@ const PlayersPage = () => {
 						{players.length > 0 &&
 							players.map(item => (
 								<div
-									className='w-full p-2 border border-purple-400 rounded'
+									className='w-full p-2 border border-purple-700 rounded'
 									key={item}
 								>
 									<p>{item}</p>
