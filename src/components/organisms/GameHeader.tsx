@@ -22,7 +22,7 @@ const GameHeader = () => {
 					className={({ isActive }) =>
 						`cursor-pointer w-8 h-8 flex items-center justify-center rounded ${
 							isActive
-								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-800'
+								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-900'
 								: 'border border-neutral-500 dark:border-neutral-300'
 						}`
 					}
@@ -34,7 +34,7 @@ const GameHeader = () => {
 					className={({ isActive }) =>
 						`cursor-pointer w-8 h-8 flex items-center justify-center rounded ${
 							isActive
-								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-800'
+								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-900'
 								: 'border border-neutral-500 dark:border-neutral-300'
 						}`
 					}
@@ -46,7 +46,7 @@ const GameHeader = () => {
 					className={({ isActive }) =>
 						`cursor-pointer w-8 h-8 flex items-center justify-center rounded  ${
 							isActive
-								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-800'
+								? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-900'
 								: 'border border-neutral-500 dark:border-neutral-300'
 						}`
 					}
