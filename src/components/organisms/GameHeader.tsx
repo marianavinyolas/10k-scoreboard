@@ -1,4 +1,4 @@
-import { IcDices, IcSettings, IcTrophy, IcReset } from '@atoms'
+import { IcDices, IcTrophy, IcReset } from '@atoms'
 import i18next from 'i18next'
 import { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
