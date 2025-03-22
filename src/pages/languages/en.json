@@ -23,6 +23,9 @@
     "scorePlaceholder": "Score",
     "overflowError": "The score can't be higher than 10.000",
     "congratulationWinner": "Congratulation",
-    "subtitleWinner": "You reached 10,000 points!"
+    "subtitleWinner": "You reached 10,000 points!",
+    "buttonLeaveGame": "Leave game",
+    "buttonFromZero": "From 0",
+    "buttonFromMin": "Min"
   }
 }
