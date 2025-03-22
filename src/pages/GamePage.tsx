@@ -12,7 +12,7 @@ const GamePage = () => {
 	const [isWinner, setIsWinner] = useState(false)
 	const [pointsError, setPointsError] = useState('')
 	const [winnersList, setWinnersList] = useState<IPlayer[]>([])
-	const [showModal, setShowModal] = useState(true)
+	const [showModal, setShowModal] = useState(false)
 
 	useEffect(() => {
 		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
