@@ -19,7 +19,7 @@ const Modal = ({ isOpen, children }: IModalProps) => {
 	return (
 		<dialog
 			ref={dialogRef}
-			className='w-[95%] sm:w-[70%] lg:w-[50%] rounded-md bg-neutral-100 dark:bg-slate-600 p-4'
+			className='w-[95%] sm:w-[70%] lg:w-[50%] rounded-md bg-neutral-100 dark:bg-slate-600 p-4 backdrop:backdrop-blur-sm'
 		>
 			{children}
 		</dialog>
