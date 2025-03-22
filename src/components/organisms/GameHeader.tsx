@@ -25,18 +25,6 @@ const GameHeader = ({ reset }: { reset: () => void }) => {
 				</button>
 				<div className='flex gap-4'>
 					<NavLink
-						to='/settings'
-						className={({ isActive }) =>
-							`cursor-pointer w-8 h-8 flex items-center justify-center rounded ${
-								isActive
-									? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-900'
-									: 'border border-neutral-500 dark:border-neutral-300'
-							}`
-						}
-					>
-						<IcSettings className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />
-					</NavLink>
-					<NavLink
 						to='/leaderboard'
 						className={({ isActive }) =>
 							`cursor-pointer w-8 h-8 flex items-center justify-center rounded ${
