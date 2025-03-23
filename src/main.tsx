@@ -30,9 +30,6 @@ i18next.use(initReactI18next).init({
 const currentLanguage = localStorage.getItem('LANGUAGE')
 currentLanguage && i18next.changeLanguage(currentLanguage)
 
-const location = document.location
-console.log(location)
-
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
     <RouterProvider router={Router} />
