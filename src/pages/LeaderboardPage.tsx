@@ -26,6 +26,8 @@ const LeaderboardPage = () => {
 		localStorage.removeItem('WINNER')
 		localStorage.removeItem('SCORES')
 		localStorage.removeItem('RANKING')
+		localStorage.removeItem('PLAYERS')
+
 		navigate('/wellcome')
 	}
 
