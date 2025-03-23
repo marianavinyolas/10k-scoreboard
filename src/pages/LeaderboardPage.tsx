@@ -14,12 +14,15 @@ const LeaderboardPage = () => {
 
 	useEffect(() => {
 		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
+		const winners = JSON.parse(localStorage.getItem('RANKING') || '[]')
 
 		const sortedScores = scores.sort(
 			(a: IPlayer, b: IPlayer) => b.score - a.score
 		)
 
-		setScoresList(sortedScores)
+		const ranking = [...winners, ...sortedScores]
+
+		setScoresList(ranking)
 	}, [])
 
 	const hdlResetGame = () => {
