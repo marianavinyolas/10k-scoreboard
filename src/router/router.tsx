@@ -4,7 +4,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 const Router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Navigate to='/10k-scoreboard/wellcome' replace />,
+		element: <Navigate to='/wellcome' replace />,
 	},
 	{
 		path: '/wellcome',
@@ -24,7 +24,7 @@ const Router = createBrowserRouter([
 	},
 	{
 		path: '*',
-		element: <Navigate to='/10k-scoreboard/wellcome' replace />,
+		element: <Navigate to='/wellcome' replace />,
 	},
 ], {
 	basename: '/10k-scoreboard'
