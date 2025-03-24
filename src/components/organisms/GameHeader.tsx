@@ -19,9 +19,9 @@ const GameHeader = ({ reset }: { reset: () => void }) => {
 			<section className='flex justify-between gap-4'>
 				<button
 					onClick={reset}
-					className='w-8 h-8 flex items-center justify-center rounded border border-red-500'
+					className='w-8 h-8 flex items-center justify-center rounded border border-neutral-50 dark:border-neutral-300 bg-red-500 dark:bg-red-500/70'
 				>
-					<IcReset className='w-5 h-5 fill-neutral-700 dark:fill-neutral-300' />
+					<IcReset className='w-5 h-5 fill-neutral-50 dark:fill-neutral-300 ' />
 				</button>
 				<div className='flex gap-4'>
 					<NavLink
