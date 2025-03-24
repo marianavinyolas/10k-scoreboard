@@ -89,7 +89,7 @@ const PlayersPage = () => {
 						{players.length > 0 &&
 							players.map(item => (
 								<div
-									className='w-full p-2 border border-purple-700 rounded'
+									className='w-full p-2 border border-slate-500 rounded'
 									key={item}
 								>
 									<p>{item}</p>
