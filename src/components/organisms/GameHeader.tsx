@@ -15,7 +15,7 @@ const GameHeader = ({ reset }: { reset: () => void }) => {
 	}, [])
 
 	return (
-		<header className='w-full'>
+		<header className='w-full px-2'>
 			<section className='flex justify-between gap-4'>
 				<button
 					onClick={reset}
