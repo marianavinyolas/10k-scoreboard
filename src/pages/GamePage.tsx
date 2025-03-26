@@ -43,7 +43,7 @@ const GamePage = () => {
 		}
 
 		loadGame()
-		console.log('re-render')
+
 	}, [])
 
 	const hdlAddScore = (index: number, score: number) => {
@@ -65,7 +65,6 @@ const GamePage = () => {
 			updatedPlayers[nextIndex].active = true
 
 			if (isWinner) {
-				console.log('isWinner')
 				return {
 					...prev,
 					players: updatedPlayers,
@@ -85,8 +84,7 @@ const GamePage = () => {
 			if (!prev.currentWinner) return prev
 
 			if (action === 'leave') {
-				// 1. Filtrar jugadores (eliminar al ganador)
-				console.log('leave', prev.currentWinner)
+				//  Filtrar jugadores (eliminar al ganador)
 				const updatedPlayers = prev.players
 					.filter(player => player.id !== prev.currentWinner?.id)
 					.map((player, index) => ({ ...player, id: index }))
@@ -124,7 +122,7 @@ const GamePage = () => {
 			})
 
 			localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
-
+			
 			return {
 				...prev,
 				players: updatedPlayers,
@@ -133,7 +131,7 @@ const GamePage = () => {
 			}
 		})
 	}
-
+	
 	const hdlResetGame = () => {
 		localStorage.removeItem('SCORES')
 		localStorage.removeItem('WINNER')
@@ -156,7 +154,7 @@ const GamePage = () => {
 				{gameState.players.map((player, idx) =>
 					player.active ? (
 						<ActivePlayer
-							key={`${player.id}-${idx}`}
+							key={`${player.name}-${idx}`}
 							player={player}
 							onAddScore={hdlAddScore}
 							errorMessage={gameState.pointsError}
@@ -164,7 +162,7 @@ const GamePage = () => {
 					) : (
 						<div className='w-[80%] flex justify-center'>
 							<InactivePlayer
-								key={`${player.id}-${idx}`}
+								key={`${player.name}-${idx}`}
 								name={player.name}
 								score={player.score}
 								playerIndex={idx + 1}
