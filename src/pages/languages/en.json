@@ -25,7 +25,7 @@
     "congratulationWinner": "Congratulation",
     "subtitleWinner": "You reached 10,000 points!",
     "buttonLeaveGame": "Leave game",
-    "buttonFromZero": "From 0",
-    "buttonFromMin": "Min"
+    "buttonFromZero": "Restart game from 0",
+    "buttonFromMin": "Restart game from min score"
   }
 }

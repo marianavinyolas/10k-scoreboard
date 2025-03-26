@@ -10,201 +10,161 @@ const GamePage = () => {
 	const { t } = useTranslation('Pages')
 	const navigate = useNavigate()
 
-	const [playersList, setPlayersList] = useState<IPlayer[]>([])
-	const [isWinner, setIsWinner] = useState(false)
-	const [pointsError, setPointsError] = useState('')
-	const [winnersList, setWinnersList] = useState<IPlayer[]>([])
-	const [showModal, setShowModal] = useState(false)
+	type GameState = {
+		players: IPlayer[]
+		currentWinner: IPlayer | null
+		pointsError: string
+		showModal: boolean
+	}
+
+	const [gameState, setGameState] = useState<GameState>({
+		players: [],
+		currentWinner: null,
+		pointsError: '',
+		showModal: false,
+	})
 
 	useEffect(() => {
-		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
-		const players = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
+		const loadGame = () => {
+			const savedScores = localStorage.getItem('SCORES')
 
-		const initialPlayers: IPlayer[] = players.map(
-			(item: string, index: number) => ({
-				name: item,
-				active: index === 0 ? true : false,
-				isWinner: false,
-				score: 0,
-				position: null,
-				id: index,
-			})
-		)
+			const savedPlayers: IPlayer[] = savedScores
+				? (JSON.parse(savedScores) as IPlayer[])
+				: (JSON.parse(localStorage.getItem('PLAYERS') || '[]') as string[]).map(
+						(name, index) => ({
+							name,
+							active: index === 0,
+							score: 0,
+							id: index,
+						})
+					)
 
-		setPlayersList(scores.length ? [...scores] : initialPlayers)
-	}, [winnersList])
+			setGameState(prev => ({ ...prev, players: savedPlayers }))
+		}
+
+		loadGame()
+		console.log('re-render')
+	}, [])
 
 	const hdlAddScore = (index: number, score: number) => {
-		const updatedPlayers = [...playersList]
-		const currentPlayer = updatedPlayers[index]
+		setGameState(prev => {
+			const updatedPlayers = prev.players.map(player => ({ ...player }))
+			const currentPlayer = updatedPlayers[index]
 
-		// Verificar si sumar el puntaje actual supera 10000
-		if (currentPlayer.score + score > 10000) {
-			setPointsError(t('gamePage.overflowError'))
-		} else {
-			setPointsError('')
-			// Sumar el puntaje al jugador actual
-			currentPlayer.score += score
+			const newScore = currentPlayer.score + score
+			const isWinner = newScore === 10000
 
-			// Verificar si el jugador actual ha ganado
-			if (currentPlayer.score === 10000) {
-				localStorage.setItem('WINNER', JSON.stringify(currentPlayer))
-				setShowModal(true)
-				setIsWinner(true)
-				currentPlayer.isWinner = true
-				currentPlayer.active = false
-				if (index + 1 < updatedPlayers.length) {
-					updatedPlayers[index + 1].active = true
-				} else {
-					updatedPlayers[0].active = true
-				}
-			} else {
-				// Avanzar al siguiente jugador
-				setIsWinner(false)
-				currentPlayer.active = false
-				if (index + 1 < updatedPlayers.length) {
-					updatedPlayers[index + 1].active = true
-				} else {
-					updatedPlayers[0].active = true
+			if (newScore > 10000) {
+				return { ...prev, pointsError: t('gamePage.overflowError') }
+			}
+
+			currentPlayer.score = newScore
+			currentPlayer.active = false
+
+			const nextIndex = (index + 1) % updatedPlayers.length
+			updatedPlayers[nextIndex].active = true
+
+			if (isWinner) {
+				console.log('isWinner')
+				return {
+					...prev,
+					players: updatedPlayers,
+					currentWinner: currentPlayer,
+					showModal: true,
+					pointsError: '',
 				}
 			}
-		}
-		localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
 
-		setPlayersList(updatedPlayers)
+			localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
+			return { ...prev, players: updatedPlayers, pointsError: '' }
+		})
 	}
 
-	const hdlFromZero = () => {
-		// Obtener las puntuaciones almacenadas en localStorage
-		const scoresStr = localStorage.getItem('SCORES')
-		const currentWinner = JSON.parse(localStorage.getItem('WINNER') ?? '{}')
-		if (!scoresStr) return
+	const handleGameAction = (action: 'leave' | 'reset-zero' | 'reset-min') => {
+		setGameState(prev => {
+			if (!prev.currentWinner) return prev
 
-		const scores: IPlayer[] = JSON.parse(scoresStr)
+			if (action === 'leave') {
+				// 1. Filtrar jugadores (eliminar al ganador)
+				console.log('leave', prev.currentWinner)
+				const updatedPlayers = prev.players
+					.filter(player => player.id !== prev.currentWinner?.id)
+					.map((player, index) => ({ ...player, id: index }))
 
-		// Encontrar al jugador ganador
-		const winnerIndex = scores.findIndex(player => player.isWinner)
-		if (winnerIndex === -1) return // Si no hay ganador, salir
+				localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
+				const existingRanking: IPlayer[] = JSON.parse(
+					localStorage.getItem('WINNER') || '[]'
+				)
+				const duplicateWinner = existingRanking.find(
+					player => player.id === prev.currentWinner?.id
+				)
 
-		// Filtrar otros jugadores y obtener la puntuación mínima
-		const otherPlayers = scores.filter(player => !player.isWinner)
-		if (otherPlayers.length === 0) return // No hay otros jugadores
+				const updatedRanking = duplicateWinner ? [...existingRanking] :[...existingRanking, prev.currentWinner]
+				localStorage.setItem('WINNER', JSON.stringify(updatedRanking))
 
-		// Actualizar el ganador con la puntuación mínima y reactivarlo
-		scores[winnerIndex].score = 0
-		scores[winnerIndex].isWinner = false // Dejar de ser considerado ganador
+				return {
+					...prev,
+					players: updatedPlayers,
+					showModal: false,
+					currentWinner: null,
+				}
+			}
 
-		// Guardar los cambios en localStorage
-		localStorage.setItem('SCORES', JSON.stringify(scores))
-		setWinnersList([...winnersList, currentWinner])
+			const updatedPlayers = prev.players.map(player => {
+				if (player.id === prev.currentWinner?.id) {
+					const minScore = Math.min(...prev.players.map(p => p.score))
 
-		// Cerrar el modal y eliminar el ítem 'WINNER'
-		setShowModal(false)
-		localStorage.removeItem('WINNER')
-	}
-	const hdlFromMin = () => {
-		// Obtener las puntuaciones almacenadas en localStorage
-		const scoresStr = localStorage.getItem('SCORES')
-		const currentWinner = JSON.parse(localStorage.getItem('WINNER') ?? '{}')
-		if (!scoresStr) return
+					return {
+						...player,
+						score: action === 'reset-zero' ? 0 : minScore,
+						active: false,
+					}
+				}
+				return player
+			})
 
-		const scores: IPlayer[] = JSON.parse(scoresStr)
+			localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
 
-		// Encontrar al jugador ganador
-		const winnerIndex = scores.findIndex(player => player.isWinner)
-		if (winnerIndex === -1) return // Si no hay ganador, salir
-
-		// Filtrar otros jugadores y obtener la puntuación mínima
-		const otherPlayers = scores.filter(player => !player.isWinner)
-		if (otherPlayers.length === 0) return // No hay otros jugadores
-
-		const minScore = Math.min(...otherPlayers.map(p => p.score))
-
-		// Actualizar el ganador con la puntuación mínima y reactivarlo
-		scores[winnerIndex].score = minScore
-		scores[winnerIndex].isWinner = false // Dejar de ser considerado ganador
-
-		// Guardar los cambios en localStorage
-		localStorage.setItem('SCORES', JSON.stringify(scores))
-		setWinnersList([...winnersList, currentWinner])
-
-		// Cerrar el modal y eliminar el ítem 'WINNER'
-		setShowModal(false)
-		localStorage.removeItem('WINNER')
-	}
-	const handleLeaveGame = () => {
-		// Obtener y validar datos
-		const scoresStr = localStorage.getItem('SCORES')
-		const currentWinner = JSON.parse(localStorage.getItem('WINNER') || 'null')
-
-		if (!scoresStr || !currentWinner) return
-
-		const scores: IPlayer[] = JSON.parse(scoresStr)
-		const winnerIndex = scores.findIndex(player => player.isWinner)
-
-		if (winnerIndex === -1) {
-			console.error('No se encontró al ganador')
-			return
-		}
-
-		// 1. Actualizar SCORES (eliminar al ganador)
-		const updatedScores = scores.filter((_, index) => index !== winnerIndex).map((item, index) =>{ return {...item, id: index}})
-		localStorage.setItem('SCORES', JSON.stringify(updatedScores))
-
-		// 2. Actualizar RANKING
-		const existingRanking: IPlayer[] = JSON.parse(
-			localStorage.getItem('RANKING') || '[]'
-		)
-
-		const newRankingEntry: IPlayer = {
-			...currentWinner,
-			position: existingRanking.length + 1, // Asignar posición consecutiva
-			active: false,
-			isWinner: false,
-		}
-
-		const updatedRanking = [...existingRanking, newRankingEntry]
-		localStorage.setItem('RANKING', JSON.stringify(updatedRanking))
-
-		// 3. Limpiar y actualizar estado
-		setShowModal(false)
-		localStorage.removeItem('WINNER')
-		setWinnersList(prev => [...prev, currentWinner])
+			return {
+				...prev,
+				players: updatedPlayers,
+				showModal: false,
+				currentWinner: null,
+			}
+		})
 	}
 
 	const hdlResetGame = () => {
-		localStorage.removeItem('WINNER')
 		localStorage.removeItem('SCORES')
-		localStorage.removeItem('RANKING')
+		localStorage.removeItem('WINNER')
 		localStorage.removeItem('PLAYERS')
 		navigate('/wellcome')
 	}
 
-
 	return (
-		<main className='w-screen h-dvh  text-neutral-700 dark:text-neutral-200 flex flex-col gap-[3vh] items-center px-[5vw] py-[3vh]'>
+		<main className='w-screen h-dvh text-neutral-700 dark:text-neutral-200 flex flex-col gap-8 sm:gap-12 items-center px-2 sm:px-[5vw] py-[3vh]'>
 			<GameHeader reset={hdlResetGame} />
-			{isWinner ? (
+
+			{gameState.currentWinner && (
 				<CustomConfetti
-					onWinner={isWinner}
-					winnerName={playersList.find(item => item.isWinner)?.name ?? ''}
+					onWinner={!!gameState.currentWinner}
+					winnerName={gameState.currentWinner.name}
 				/>
-			) : (
-				<></>
 			)}
+
 			<section className='w-full sm:w-[60%] lg:w-[50%] h-full flex flex-col items-center gap-2 sm:gap-4 lg:gap-8'>
-				{playersList.map((player, idx) =>
+				{gameState.players.map((player, idx) =>
 					player.active ? (
 						<ActivePlayer
-							key={player.name}
+							key={`${player.id}-${idx}`}
 							player={player}
 							onAddScore={hdlAddScore}
-							errorMessage={pointsError}
+							errorMessage={gameState.pointsError}
 						/>
 					) : (
-						<div className='w-[80%] flex'>
+						<div className='w-[80%] flex justify-center'>
 							<InactivePlayer
-								key={player.name}
+								key={`${player.id}-${idx}`}
 								name={player.name}
 								score={player.score}
 								playerIndex={idx + 1}
@@ -214,31 +174,31 @@ const GamePage = () => {
 				)}
 			</section>
 
-			<Modal isOpen={showModal}>
-				<section className='flex flex-col gap-4 items-center p-12'>
+			<Modal isOpen={gameState.showModal}>
+				<section className='flex flex-col gap-4 items-center p-2 sm:p-12'>
 					<IcTrophy className='w-20 h-20 fill-amber-500 dark:fill-amber-400' />
 					<h3 className='text-neutral-700 dark:text-neutral-100'>
 						{t('gamePage.congratulationWinner')}
 					</h3>
-					<h1 className='text-2xl font-bold text-slate-500'>
-						{JSON.parse(localStorage.getItem('WINNER') ?? '{}').name}
+					<h1 className='text-2xl sm:text-3xl font-bold text-neutral-700 dark:text-neutral-100'>
+						{gameState.currentWinner?.name}
 					</h1>
-					<article className='w-full flex justify-around gap-4 text-neutral-100 font-medium'>
+					<article className='w-full flex flex-col justify-center items-center gap-4 text-neutral-100 font-medium'>
 						<button
-							onClick={handleLeaveGame}
-							className='w-24 border border-sky-600 bg-sky-600 rounded py-2 px-4'
+							className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+							onClick={() => handleGameAction('leave')}
 						>
 							{t('gamePage.buttonLeaveGame')}
 						</button>
 						<button
-							onClick={hdlFromZero}
-							className='w-24 border border-sky-600 bg-sky-600 rounded py-2 px-4'
+							className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+							onClick={() => handleGameAction('reset-zero')}
 						>
 							{t('gamePage.buttonFromZero')}
 						</button>
 						<button
-							onClick={hdlFromMin}
-							className='w-24 border border-sky-600 bg-sky-600 rounded py-2 px-4'
+							className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+							onClick={() => handleGameAction('reset-min')}
 						>
 							{t('gamePage.buttonFromMin')}
 						</button>

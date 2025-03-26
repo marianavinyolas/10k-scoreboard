@@ -24,8 +24,8 @@
     "overflowError": "El puntaje no puede ser mayor a 10.000",
     "congratulationWinner": "Felicitaciones",
     "subtitleWinner": "Has alcanzado 10,000 puntos!",
-    "buttonLeaveGame": "Salir",
-    "buttonFromZero": "Desde 0",
-    "buttonFromMin": "Min"
+    "buttonLeaveGame": "Salir del juego",
+    "buttonFromZero": "Reiniciar desde 0",
+    "buttonFromMin": "Reiniciar desde puntaje mínimo"
   }
 }
