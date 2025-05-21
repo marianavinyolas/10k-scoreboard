@@ -1,7 +1,7 @@
 import { GamePage, LeaderboardPage, PlayersPage, WellcomePage } from '@pages'
-import { createHashRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 
-const Router = createHashRouter([
+const Router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Navigate to='/wellcome' replace />,
