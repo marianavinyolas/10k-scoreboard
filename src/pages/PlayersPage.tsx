@@ -1,7 +1,7 @@
 import { IcPlus } from '@atoms'
 import { TypingMachine } from '@molecules'
 import { SetupHeader } from '@organisms'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,6 +14,11 @@ const PlayersPage = () => {
 	const [showNameWarning, setShowNameWarning] = useState(false)
 
 	const [newName, setNewName] = useState('')
+
+	useEffect(() => {
+		const players = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
+		setPlayers(players)
+	}, [])
 
 	const hdlNewName = (value: string) => {
 		setNewName(value)
