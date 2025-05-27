@@ -1,4 +1,4 @@
-import { GamePage, LeaderboardPage, PlayersPage, WellcomePage } from '@pages'
+import { GamePage, LeaderboardPage, PlayersPage, WellcomePage, EditPage } from '@pages'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 const Router = createBrowserRouter([
@@ -21,6 +21,10 @@ const Router = createBrowserRouter([
 	{
 		path: '/leaderboard',
 		element: <LeaderboardPage />,
+	},
+	{
+		path: '/edit',
+		element: <EditPage />,
 	},
 	{
 		path: '*',

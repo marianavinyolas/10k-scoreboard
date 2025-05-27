@@ -19,6 +19,13 @@
   "leaderboardPage": {
     "title": "Leaderboard"
   },
+  "editPage": {
+    "title": "Edit players",
+    "addPlayer": "Add player",
+    "buttonCancel": "Cancel",
+    "buttonConfirm": "Confirm"
+
+  },
   "gamePage": {
     "scorePlaceholder": "Score",
     "overflowError": "The score can't be higher than 10.000",

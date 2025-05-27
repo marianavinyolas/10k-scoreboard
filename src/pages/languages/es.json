@@ -19,6 +19,12 @@
   "leaderboardPage": {
     "title": "Posiciones"
   },
+  "editPage": {
+    "title": "Editar jugadores",
+    "addPlayer": "Agregar jugador",
+        "buttonCancel": "Cancelar",
+    "buttonConfirm": "Confirmar"
+  },
   "gamePage": {
     "scorePlaceholder": "Puntos",
     "overflowError": "El puntaje no puede ser mayor a 10.000",
