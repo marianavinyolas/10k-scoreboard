@@ -1,4 +1,4 @@
-import { IcDices, IcTrophy, IcReset } from '@atoms'
+import { IcDices, IcTrophy, IcReset, IcSettings } from '@atoms'
 import i18next from 'i18next'
 import { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
@@ -24,6 +24,18 @@ const GameHeader = ({ reset }: { reset: () => void }) => {
 					<IcReset className='w-5 h-5 fill-neutral-50 dark:fill-neutral-300 ' />
 				</button>
 				<div className='flex gap-4'>
+					<NavLink
+						to='/edit'
+						className={({ isActive }) =>
+							`cursor-pointer w-8 h-8 flex items-center justify-center rounded ${
+								isActive
+									? 'border-2 border-sky-500 dark:border-sky-500 shadow-md bg-sky-200 dark:bg-sky-900'
+									: 'border border-neutral-500 dark:border-neutral-300'
+							}`
+						}
+					>
+						<IcSettings className='w-6 h-6 fill-neutral-700 dark:fill-neutral-300' />
+					</NavLink>
 					<NavLink
 						to='/leaderboard'
 						className={({ isActive }) =>
