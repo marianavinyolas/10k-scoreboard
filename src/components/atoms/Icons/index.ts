@@ -7,6 +7,7 @@ export { default as IcSettings } from './IcSettings'
 export { default as IcTrophy } from './IcTrophy'
 export { default as IcDices } from './IcDices'
 export { default as IcChevron } from './IcChevron'
+export { default as IcPen } from './IcPen'
 
 export { IcUser } from './IcUser'
 export { IcSpinner } from './IcSpinner'
