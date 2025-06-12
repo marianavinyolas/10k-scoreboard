@@ -12,6 +12,9 @@ const EditPage = () => {
 	const [playersList, setPlayersList] = useState<IPlayer[]>([])
 	const [, setIsDone] = useState(false)
 	const [isOpenModal, setIsOpenModal] = useState(false)
+	const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+	const [isOpenEditModal, setIsOpenEditModal] = useState(false)
+	const [player, setPlayer] = useState<IPlayer | null>(null)
 
 	useEffect(() => {
 		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
@@ -39,6 +42,31 @@ const EditPage = () => {
 
 		navigate('/wellcome')
 	}
+	const hdlOpenDelete = (playerIndex: number) => {
+		setIsOpenDeleteModal(true)
+		const selectedPlayer =
+			playersList.filter(item => item.id === playerIndex).pop() || null
+
+		setPlayer(selectedPlayer)
+	}
+
+	const hdlOpenEdit = () => {
+		setIsOpenEditModal(true)
+	}
+	const hdlDeletePlayer = () => {
+		const newList = playersList
+			.filter(item => item.id !== player?.id)
+			.map((item, idx) => ({ ...item, id: idx }))
+		setPlayersList(newList)
+		localStorage.setItem('SCORES', JSON.stringify(newList))
+		hdlCancel()
+	}
+
+	const hdlCancel = () => {
+		setIsOpenDeleteModal(false)
+		setIsOpenEditModal(false)
+		setPlayer(null)
+	}
 
 	return (
 		<main className='w-screen h-dvh  text-neutral-700 dark:text-neutral-200 flex flex-col gap-[3vh] items-center px-2 sm:px-[5vw] py-[3vh]'>
@@ -57,7 +85,9 @@ const EditPage = () => {
 						key={`${player.name}-${idx}`}
 						name={player.name}
 						score={player.score}
-						playerIndex={idx + 1}
+						playerIndex={idx}
+						onDelete={hdlOpenDelete}
+						onEdit={hdlOpenEdit}
 					/>
 				))}
 				<button
@@ -79,6 +109,31 @@ const EditPage = () => {
 					setIsOpen={setIsOpenModal}
 					{...{ playersList, setPlayersList }}
 				/>
+			</Modal>
+			<Modal isOpen={isOpenDeleteModal}>
+				<section className='flex flex-col gap-8 items-center w-full text-neutral-700 dark:text-neutral-200'>
+					<article className='flex flex-col items-center gap-6 py-4'>
+						<h2 className='text-2xl font-bold'>
+							{`${t('editPage.deletePlayerTitle')}`}
+						</h2>
+						<p className='text-center sm:text-balance'>{`${t('editPage.deletePlayerDescription')}`}</p>
+						<h1 className='text-3xl uppercase'>{player?.name}</h1>
+					</article>
+					<article className='w-full justify-between flex sm:justify-end gap-6'>
+						<button
+							className=' border border-sky-600 text-sky-600  dark:border-sky-400 dark:text-sky-400 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+							onClick={hdlCancel}
+						>
+							{`${t('editPage.buttonCancel')}`}
+						</button>
+						<button
+							onClick={hdlDeletePlayer}
+							className=' border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+						>
+							{`${t('editPage.buttonDelete')}`}
+						</button>
+					</article>
+				</section>
 			</Modal>
 		</main>
 	)

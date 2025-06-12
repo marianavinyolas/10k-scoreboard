@@ -23,7 +23,10 @@
     "title": "Edit players",
     "addPlayer": "Add player",
     "buttonCancel": "Cancel",
-    "buttonConfirm": "Confirm"
+    "buttonConfirm": "Confirm",
+    "buttonDelete": "Delete",
+    "deletePlayerTitle": "Delete player",
+    "deletePlayerDescription": "Are you sure you want to delete this player from the game?"
 
   },
   "gamePage": {
