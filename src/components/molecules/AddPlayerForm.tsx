@@ -50,7 +50,7 @@ const AddPlayerForm = ({
 	}
 
 	return (
-		<section className='flex flex-col gap-4 items-center w-full p-2 sm:p-8 text-neutral-700 dark:text-neutral-200 '>
+		<section className='flex flex-col gap-8 items-center w-full sm:px-8 text-neutral-700 dark:text-neutral-200 '>
 			<h2 className='text-2xl font-bold'>{`${t('editPage.addPlayer')}`}</h2>
 			<fieldset className='w-full py-2'>
 				<label
@@ -77,13 +77,13 @@ const AddPlayerForm = ({
 			<article className='w-full justify-between flex sm:justify-end gap-6'>
 
 					<button
-						className='border border-sky-600 text-sky-600  dark:border-sky-400 dark:text-sky-400 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+						className='secondary-button'
 						onClick={hdlCancel}
 					>
 						{t('editPage.buttonCancel')}
 					</button>
 					<button
-						className='bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300 disabled:bg-slate-500'
+						className='primary-button'
 						onClick={() => hdlAddPlayer()}
 						disabled={showNameWarning || !newName}
 					>
