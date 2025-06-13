@@ -1,3 +1,5 @@
+import React from "react"
+
 interface IInactivePlayer {
 	name: string
 	score: number
@@ -18,4 +20,4 @@ const InactivePlayer = ({ name, score, playerIndex }: IInactivePlayer) => {
 	)
 }
 
-export default InactivePlayer
+export default React.memo(InactivePlayer)

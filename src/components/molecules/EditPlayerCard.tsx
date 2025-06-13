@@ -1,6 +1,7 @@
 import { IcPen, IcTrash } from '@atoms'
+import React from 'react'
 
-interface IEditPlayer {
+interface IEditPlayerCard {
 	name: string
 	score: number
 	playerIndex: number
@@ -8,7 +9,7 @@ interface IEditPlayer {
 	onEdit: (playerIndex:number) => void
 }
 
-const EditPlayer = ({ name, score, playerIndex, onDelete, onEdit }: IEditPlayer) => {
+const EditPlayerCard = ({ name, score, playerIndex, onDelete, onEdit }: IEditPlayerCard) => {
 
 	return (
 		<article className='w-full flex gap-2 py-2 border border-slate-500 rounded bg-gray-100 dark:bg-slate-800'>
@@ -31,4 +32,4 @@ const EditPlayer = ({ name, score, playerIndex, onDelete, onEdit }: IEditPlayer)
 	)
 }
 
-export default EditPlayer
+export default React.memo(EditPlayerCard)
