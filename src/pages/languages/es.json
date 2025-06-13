@@ -22,11 +22,14 @@
   "editPage": {
     "title": "Editar jugadores",
     "addPlayer": "Agregar jugador",
-        "buttonCancel": "Cancelar",
+    "buttonCancel": "Cancelar",
     "buttonConfirm": "Confirmar",
     "buttonDelete": "Eliminar",
+    "buttonEdit": "Editar",
     "deletePlayerTitle": "Eliminar jugador",
-    "deletePlayerDescription": "¿Estás seguro de querer eliminar este jugador del juego?"
+    "deletePlayerDescription": "¿Estás seguro de querer eliminar este jugador del juego?",
+    "editScoreLabel": "Puntos",
+    "editPlayerTitle": "Editar jugador"
   },
   "gamePage": {
     "scorePlaceholder": "Puntos",

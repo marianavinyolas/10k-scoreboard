@@ -1,6 +1,13 @@
 import { IcPlus } from '@atoms'
 import { IPlayer } from '@interfaces'
-import { AddPlayerForm, EditPlayer, Modal, TypingMachine } from '@molecules'
+import {
+	AddPlayerForm,
+	DeletePlayerForm,
+	EditPlayerCard,
+	EditPlayerForm,
+	Modal,
+	TypingMachine,
+} from '@molecules'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -35,6 +42,7 @@ const EditPage = () => {
 			setPlayersList(ranking)
 		}
 	}, [])
+
 	const hdlResetGame = () => {
 		localStorage.removeItem('WINNER')
 		localStorage.removeItem('SCORES')
@@ -50,16 +58,12 @@ const EditPage = () => {
 		setPlayer(selectedPlayer)
 	}
 
-	const hdlOpenEdit = () => {
+	const hdlOpenEdit = (playerIndex: number) => {
 		setIsOpenEditModal(true)
-	}
-	const hdlDeletePlayer = () => {
-		const newList = playersList
-			.filter(item => item.id !== player?.id)
-			.map((item, idx) => ({ ...item, id: idx }))
-		setPlayersList(newList)
-		localStorage.setItem('SCORES', JSON.stringify(newList))
-		hdlCancel()
+		const selectedPlayer =
+			playersList.filter(item => item.id === playerIndex).pop() || null
+
+		setPlayer(selectedPlayer)
 	}
 
 	const hdlCancel = () => {
@@ -81,7 +85,7 @@ const EditPage = () => {
 			</article>
 			<section className='w-full sm:w-[60%] lg:w-[50%] h-full flex flex-col items-center gap-2 sm:gap-4 lg:gap-8'>
 				{playersList.map((player, idx) => (
-					<EditPlayer
+					<EditPlayerCard
 						key={`${player.name}-${idx}`}
 						name={player.name}
 						score={player.score}
@@ -111,29 +115,16 @@ const EditPage = () => {
 				/>
 			</Modal>
 			<Modal isOpen={isOpenDeleteModal}>
-				<section className='flex flex-col gap-8 items-center w-full text-neutral-700 dark:text-neutral-200'>
-					<article className='flex flex-col items-center gap-6 py-4'>
-						<h2 className='text-2xl font-bold'>
-							{`${t('editPage.deletePlayerTitle')}`}
-						</h2>
-						<p className='text-center sm:text-balance'>{`${t('editPage.deletePlayerDescription')}`}</p>
-						<h1 className='text-3xl uppercase'>{player?.name}</h1>
-					</article>
-					<article className='w-full justify-between flex sm:justify-end gap-6'>
-						<button
-							className=' border border-sky-600 text-sky-600  dark:border-sky-400 dark:text-sky-400 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
-							onClick={hdlCancel}
-						>
-							{`${t('editPage.buttonCancel')}`}
-						</button>
-						<button
-							onClick={hdlDeletePlayer}
-							className=' border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
-						>
-							{`${t('editPage.buttonDelete')}`}
-						</button>
-					</article>
-				</section>
+				<DeletePlayerForm
+					onCancel={hdlCancel}
+					{...{ player, playersList, setPlayersList }}
+				/>
+			</Modal>
+			<Modal isOpen={isOpenEditModal}>
+				<EditPlayerForm
+					onCancel={hdlCancel}
+					{...{ player, playersList, setPlayersList }}
+				/>
 			</Modal>
 		</main>
 	)
