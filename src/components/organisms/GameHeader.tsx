@@ -1,9 +1,17 @@
-import { IcDices, IcTrophy, IcReset, IcSettings } from '@atoms'
+import { IcDices, IcTrophy, IcReset, IcSettings, IcClose } from '@atoms'
+import { Modal } from '@molecules'
 import i18next from 'i18next'
-import { useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
-const GameHeader = ({ reset }: { reset: () => void }) => {
+const GameHeader = () => {
+	const { t } = useTranslation('Pages')
+	const { pathname } = useLocation()
+
+	const navigate = useNavigate()
+
+	const [isOpen, setIsOpen] = useState(false)
 	useEffect(() => {
 		const currentLanguage = localStorage.getItem('LANGUAGE') || 'es'
 		i18next.changeLanguage(currentLanguage)
@@ -14,14 +22,27 @@ const GameHeader = ({ reset }: { reset: () => void }) => {
 		document.documentElement.classList.toggle('dark', currentTheme === 'dark')
 	}, [])
 
+	const hdlLeaveGame = () => {
+		localStorage.removeItem('SCORES')
+		localStorage.removeItem('WINNER')
+		localStorage.removeItem('PLAYERS')
+		navigate('/wellcome')
+	}
+	
+	const hdlRestartGame = () => {
+		localStorage.removeItem('WINNER')
+		localStorage.removeItem('SCORES')
+		pathname === '/game' ? window.location.reload() : navigate('/game')
+	}
+
 	return (
 		<header className='w-full px-2'>
 			<section className='flex justify-between gap-4'>
 				<button
-					onClick={reset}
-					className='w-8 h-8 flex items-center justify-center rounded border border-neutral-50 dark:border-neutral-300 bg-red-500 dark:bg-red-500/70'
+					onClick={() => setIsOpen(true)}
+					className='w-8 h-8 flex items-center justify-center rounded border border-neutral-50 dark:border-neutral-300 bg-red-600 dark:bg-red-700/70'
 				>
-					<IcReset className='w-5 h-5 fill-neutral-50 dark:fill-neutral-300 ' />
+					<IcReset className='w-4 h-4 fill-neutral-50 dark:fill-neutral-300 ' />
 				</button>
 				<div className='flex gap-4'>
 					<NavLink
@@ -62,6 +83,30 @@ const GameHeader = ({ reset }: { reset: () => void }) => {
 					</NavLink>
 				</div>
 			</section>
+			<Modal isOpen={isOpen}>
+				<section className='flex flex-col gap-8 items-center w-full text-neutral-700 dark:text-neutral-200 relative'>
+				<button
+					onClick={() => setIsOpen(false)}
+					className='w-8 h-8 flex items-center justify-center rounded absolute -top-2 -right-2'
+				>
+					<IcClose className='w-4 h-4 fill-neutral-700 dark:fill-neutral-300 ' />
+				</button>
+					<article className='flex flex-col items-center gap-6 py-4'>
+						<h2 className='text-2xl font-bold'>
+							{`${t('header.leaveTitle')}`}
+						</h2>
+						<p className='text-center sm:text-balance'>{`${t('header.leaveDescription')}`}</p>
+					</article>
+					<article className='w-full justify-between flex sm:justify-end gap-6'>
+						<button onClick={hdlLeaveGame} className='primary-button'>
+							{`${t('header.leaveButton')}`}
+						</button>
+						<button onClick={hdlRestartGame} className='primary-button'>
+							{`${t('header.restartButton')}`}
+						</button>
+					</article>
+				</section>
+			</Modal>
 		</header>
 	)
 }

@@ -10,12 +10,10 @@ import {
 } from '@molecules'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { GameHeader } from '@organisms'
 
 const EditPage = () => {
 	const { t } = useTranslation('Pages')
-	const navigate = useNavigate()
 	const [playersList, setPlayersList] = useState<IPlayer[]>([])
 	const [, setIsDone] = useState(false)
 	const [isOpenModal, setIsOpenModal] = useState(false)
@@ -43,13 +41,6 @@ const EditPage = () => {
 		}
 	}, [])
 
-	const hdlResetGame = () => {
-		localStorage.removeItem('WINNER')
-		localStorage.removeItem('SCORES')
-		localStorage.removeItem('PLAYERS')
-
-		navigate('/wellcome')
-	}
 	const hdlOpenDelete = (playerIndex: number) => {
 		setIsOpenDeleteModal(true)
 		const selectedPlayer =
@@ -74,7 +65,7 @@ const EditPage = () => {
 
 	return (
 		<main className='w-screen h-dvh  text-neutral-700 dark:text-neutral-200 flex flex-col gap-[3vh] items-center px-2 sm:px-[5vw] py-[3vh]'>
-			<GameHeader reset={hdlResetGame} />
+			<GameHeader />
 			<article className='w-full flex flex-col items-center gap-8'>
 				<TypingMachine
 					text={`${t('editPage.title')}`}

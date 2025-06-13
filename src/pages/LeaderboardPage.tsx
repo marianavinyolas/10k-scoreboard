@@ -3,11 +3,9 @@ import { InactivePlayer, TypingMachine } from '@molecules'
 import { GameHeader } from '@organisms'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
 const LeaderboardPage = () => {
 	const { t } = useTranslation('Pages')
-	const navigate = useNavigate()
 	const [scoresList, setScoresList] = useState<IPlayer[]>([])
 	const [, setIsDone] = useState(false)
 
@@ -35,17 +33,9 @@ const LeaderboardPage = () => {
 		}
 	}, [])
 
-	const hdlResetGame = () => {
-		localStorage.removeItem('WINNER')
-		localStorage.removeItem('SCORES')
-		localStorage.removeItem('PLAYERS')
-
-		navigate('/wellcome')
-	}
-
 	return (
 		<main className='w-screen h-dvh  text-neutral-700 dark:text-neutral-200 flex flex-col gap-[3vh] items-center px-2 sm:px-[5vw] py-[3vh]'>
-			<GameHeader reset={hdlResetGame} />
+			<GameHeader />
 			<article className='w-full flex flex-col items-center gap-8'>
 				<TypingMachine
 					text={`${t('leaderboardPage.title')}`}

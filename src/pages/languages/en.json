@@ -1,7 +1,12 @@
 {
   "header": {
     "spanish": "Spanish",
-    "english": "English"
+    "english": "English",
+    "leaveTitle": "End or Restart Game",
+    "leaveDescription": "You can leave the game or restart with the same players",
+    "cancelButton": "Back",
+    "leaveButton": "End",
+    "restartButton": "Restart"
   },
   "wellcomePage": {
     "title": "Wellcome",

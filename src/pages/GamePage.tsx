@@ -4,11 +4,9 @@ import { ActivePlayer, CustomConfetti, InactivePlayer, Modal } from '@molecules'
 import { GameHeader } from '@organisms'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
 const GamePage = () => {
 	const { t } = useTranslation('Pages')
-	const navigate = useNavigate()
 
 	type GameState = {
 		players: IPlayer[]
@@ -132,16 +130,10 @@ const GamePage = () => {
 		})
 	}
 	
-	const hdlResetGame = () => {
-		localStorage.removeItem('SCORES')
-		localStorage.removeItem('WINNER')
-		localStorage.removeItem('PLAYERS')
-		navigate('/wellcome')
-	}
 
 	return (
 		<main className='w-screen h-dvh text-neutral-700 dark:text-neutral-200 flex flex-col gap-8 sm:gap-12 items-center px-2 sm:px-[5vw] py-[3vh]'>
-			<GameHeader reset={hdlResetGame} />
+			<GameHeader/>
 
 			{gameState.currentWinner && (
 				<CustomConfetti

@@ -1,7 +1,12 @@
 {
   "header": {
     "spanish": "Español",
-    "english": "Inglés"
+    "english": "Inglés",
+    "leaveTitle": "Finalizar o reiniciar el juego",
+    "leaveDescription": "Puedes elegir abandonar el juego, o reiniciar con los mismos jugadores",
+    "cancelButton": "Volver",
+    "restartButton": "Reiniciar",
+    "leaveButton": "Finalizar"
   },
   "wellcomePage": {
     "title": "Bienvenidos",
