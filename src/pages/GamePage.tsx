@@ -19,7 +19,7 @@ const GamePage = () => {
 		players: [],
 		currentWinner: null,
 		pointsError: '',
-		showModal: false,
+		showModal: false
 	})
 
 	useEffect(() => {
@@ -41,7 +41,6 @@ const GamePage = () => {
 		}
 
 		loadGame()
-
 	}, [])
 
 	const hdlAddScore = (index: number, score: number) => {
@@ -67,15 +66,18 @@ const GamePage = () => {
 					...prev,
 					players: updatedPlayers,
 					currentWinner: currentPlayer,
-					showModal: true,
 					pointsError: '',
+					showModal: true
 				}
 			}
 
 			localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
 			return { ...prev, players: updatedPlayers, pointsError: '' }
 		})
+
 	}
+
+
 
 	const handleGameAction = (action: 'leave' | 'reset-zero' | 'reset-min') => {
 		setGameState(prev => {
@@ -88,15 +90,10 @@ const GamePage = () => {
 					.map((player, index) => ({ ...player, id: index }))
 
 				localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
-				const existingRanking: IPlayer[] = JSON.parse(
-					localStorage.getItem('WINNER') || '[]'
+				localStorage.setItem(
+					'PLAYERS',
+					JSON.stringify(updatedPlayers.map(item => item.name))
 				)
-				const duplicateWinner = existingRanking.find(
-					player => player.id === prev.currentWinner?.id
-				)
-
-				const updatedRanking = duplicateWinner ? [...existingRanking] :[...existingRanking, prev.currentWinner]
-				localStorage.setItem('WINNER', JSON.stringify(updatedRanking))
 
 				return {
 					...prev,
@@ -120,7 +117,7 @@ const GamePage = () => {
 			})
 
 			localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
-			
+
 			return {
 				...prev,
 				players: updatedPlayers,
@@ -129,11 +126,10 @@ const GamePage = () => {
 			}
 		})
 	}
-	
 
 	return (
-		<main className='w-screen h-dvh text-neutral-700 dark:text-neutral-200 flex flex-col gap-8 sm:gap-12 items-center px-2 sm:px-[5vw] py-[3vh]'>
-			<GameHeader/>
+		<main className='w-screen h-dvh text-neutral-700 dark:text-neutral-200 flex flex-col gap-8 sm:gap-12 items-center px-2 sm:px-[5vw] py-[3vh] relative'>
+			<GameHeader />
 
 			{gameState.currentWinner && (
 				<CustomConfetti
