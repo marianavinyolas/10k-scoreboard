@@ -23,7 +23,6 @@ const EditPage = () => {
 
 	useEffect(() => {
 		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
-		const winners = JSON.parse(localStorage.getItem('WINNER') || '[]')
 
 		if (scores.length === 0) {
 			let ranking = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
@@ -35,7 +34,7 @@ const EditPage = () => {
 			}))
 			setPlayersList(ranking)
 		} else {
-			const ranking = [...winners, ...scores]
+			const ranking = [...scores]
 
 			setPlayersList(ranking)
 		}

@@ -11,7 +11,6 @@ const LeaderboardPage = () => {
 
 	useEffect(() => {
 		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
-		const winners = JSON.parse(localStorage.getItem('WINNER') || '[]')
 
 		if (scores.length === 0) {
 			let ranking = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
@@ -27,7 +26,7 @@ const LeaderboardPage = () => {
 				(a: IPlayer, b: IPlayer) => b.score - a.score
 			)
 
-			const ranking = [...winners, ...sortedScores]
+			const ranking = [ ...sortedScores]
 
 			setScoresList(ranking)
 		}
