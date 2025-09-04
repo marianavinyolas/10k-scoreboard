@@ -1,9 +1,11 @@
 import { IcPlus } from '@atoms'
-import { TypingMachine } from '@molecules'
+import { ErrorList, TypingMachine } from '@molecules'
 import { SetupHeader } from '@organisms'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+
+
 
 const PlayersPage = () => {
 	const { t } = useTranslation('Pages')
@@ -28,7 +30,8 @@ const PlayersPage = () => {
 			setShowNameWarning(false)
 		}
 	}
-	const hdlAddPlayer = () => {
+	const hdlAddPlayer = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
 		if (players.includes(newName)) {
 			setShowNameWarning(true)
 		} else {
@@ -43,7 +46,7 @@ const PlayersPage = () => {
 		if (players.length > 1) {
 			localStorage.setItem('PLAYERS', JSON.stringify(players))
 			navigate('/game')
-			}
+		}
 	}
 
 	return (
@@ -64,7 +67,7 @@ const PlayersPage = () => {
 							htmlFor='new-name'
 							className='text-sm px-1'
 						>{`${t('playersPage.inputLabel')}`}</label>
-						<div className='w-full h-12 flex gap-2'>
+						<form onSubmit={(e) =>hdlAddPlayer(e)} className='w-full h-12 flex gap-2'>
 							<input
 								id='new-name'
 								type='text'
@@ -72,22 +75,23 @@ const PlayersPage = () => {
 								className='bg-transparent flex-1 px-2 border border-sky-600 rounded focus:outline-0 focus:ring-0'
 								onChange={e => hdlNewName(e.target.value)}
 								value={newName}
+								aria-invalid={showNameWarning || undefined}
+								aria-describedby={showNameWarning ? 'name-warning' : undefined}
+								autoFocus
 							/>
 							<button
-								onClick={hdlAddPlayer}
+								type='submit'
 								className='bg-sky-700 text-lg px-3 py-2 rounded disabled:bg-slate-500'
-								disabled={!newName.trim()}
+								disabled={!newName.trim() || showNameWarning}
 							>
 								<IcPlus className='w-6 h-6 fill-neutral-200' />{' '}
 							</button>
+						</form>
+						<div className="min-h-[50px] px-2 pb-3 pt-1">
+							<ErrorList
+								errors={showNameWarning ? [t('playersPage.inputWarning')] : []}
+							/>
 						</div>
-						{showNameWarning ? (
-							<p className='text-sm text-red-500 tracking-wide font-medium pt-1'>
-								{t('playersPage.inputWarning')}
-							</p>
-						) : (
-							<span className='text-sm p-2 bg-transparent' />
-						)}
 					</fieldset>
 
 					<section id='players-list' className='flex flex-col gap-2'>
