@@ -27,7 +27,7 @@ const TypingMachine: FC<TypingMachineProps> = ({
 		}, speed)
 
 		return () => clearTimeout(timer) // Cleanup to prevent memory leaks
-	}, [index, text, speed])
+	}, [index, text, speed, setIsDone])
 
 	return <p className={`${className}`}>{displayedText}</p>
 }

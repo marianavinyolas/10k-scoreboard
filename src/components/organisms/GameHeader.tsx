@@ -32,7 +32,11 @@ const GameHeader = () => {
 	const hdlRestartGame = () => {
 		localStorage.removeItem('WINNER')
 		localStorage.removeItem('SCORES')
-		pathname === '/game' ? window.location.reload() : navigate('/game')
+		if (pathname === '/game') {
+			window.location.reload()
+		} else {
+			navigate('/game')
+		}
 	}
 
 	return (

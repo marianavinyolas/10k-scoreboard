@@ -28,7 +28,9 @@ i18next.use(initReactI18next).init({
 })
 
 const currentLanguage = localStorage.getItem('LANGUAGE')
-currentLanguage && i18next.changeLanguage(currentLanguage)
+if (currentLanguage) {
+	i18next.changeLanguage(currentLanguage)
+}
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
