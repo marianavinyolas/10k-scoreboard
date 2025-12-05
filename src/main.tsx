@@ -7,7 +7,6 @@ import { initReactI18next } from 'react-i18next'
 import { PagesLang } from '@pages'
 import './styles/globals.css'
 
-
 i18next.use(initReactI18next).init({
 	lng: 'es',
 	fallbackLng: 'en',
@@ -15,7 +14,6 @@ i18next.use(initReactI18next).init({
 	resources: {
 		es: {
 			Pages: PagesLang?.es,
-
 		},
 		en: {
 			Pages: PagesLang?.en,
@@ -33,7 +31,7 @@ if (currentLanguage) {
 }
 
 createRoot(document.getElementById('root') as HTMLElement).render(
-  <StrictMode>
-    <RouterProvider router={Router} />
-  </StrictMode>,
+	<StrictMode>
+		<RouterProvider router={Router} />
+	</StrictMode>
 )

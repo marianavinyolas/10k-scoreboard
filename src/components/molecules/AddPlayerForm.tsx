@@ -75,20 +75,16 @@ const AddPlayerForm = ({
 				)}
 			</fieldset>
 			<article className='w-full justify-between flex sm:justify-end gap-6'>
-
-					<button
-						className='secondary-button'
-						onClick={hdlCancel}
-					>
-						{t('editPage.buttonCancel')}
-					</button>
-					<button
-						className='primary-button'
-						onClick={() => hdlAddPlayer()}
-						disabled={showNameWarning || !newName}
-					>
-						{t('editPage.buttonConfirm')}
-					</button>
+				<button className='secondary-button' onClick={hdlCancel}>
+					{t('editPage.buttonCancel')}
+				</button>
+				<button
+					className='primary-button'
+					onClick={() => hdlAddPlayer()}
+					disabled={showNameWarning || !newName}
+				>
+					{t('editPage.buttonConfirm')}
+				</button>
 			</article>
 		</section>
 	)

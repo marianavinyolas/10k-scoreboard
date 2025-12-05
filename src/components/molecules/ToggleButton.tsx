@@ -10,7 +10,6 @@ const ToggleButton = ({
 	currentValue,
 	onChange,
 }: IToggleButton) => {
-
 	const hdlToggle = () => {
 		const newOption = Object.keys(options).find(item => item !== currentValue)
 		onChange(newOption ?? '')

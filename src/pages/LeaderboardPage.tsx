@@ -26,7 +26,7 @@ const LeaderboardPage = () => {
 				(a: IPlayer, b: IPlayer) => b.score - a.score
 			)
 
-			const ranking = [ ...sortedScores]
+			const ranking = [...sortedScores]
 
 			setScoresList(ranking)
 		}

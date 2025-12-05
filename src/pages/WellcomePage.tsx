@@ -11,7 +11,7 @@ const WellcomePage = () => {
 
 	return (
 		<main className='w-screen h-screen  text-neutral-700 dark:text-neutral-300 flex flex-col items-center p-10'>
-			<SetupHeader items={['theme', 'language']}/>
+			<SetupHeader items={['theme', 'language']} />
 			<section className='w-full h-full flex flex-col items-center justify-around'>
 				<TypingMachine
 					text={`${t('wellcomePage.name')}`}

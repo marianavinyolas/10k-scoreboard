@@ -3,10 +3,13 @@ import { IPlayer } from '@interfaces'
 import { ActivePlayer, CustomConfetti, InactivePlayer, Modal } from '@molecules'
 import { GameHeader } from '@organisms'
 import { useEffect, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 const GamePage = () => {
 	const { t } = useTranslation('Pages')
+	const navigate = useNavigate()
 
 	type GameState = {
 		players: IPlayer[]
@@ -19,7 +22,7 @@ const GamePage = () => {
 		players: [],
 		currentWinner: null,
 		pointsError: '',
-		showModal: false
+		showModal: false,
 	})
 
 	useEffect(() => {
@@ -67,17 +70,14 @@ const GamePage = () => {
 					players: updatedPlayers,
 					currentWinner: currentPlayer,
 					pointsError: '',
-					showModal: true
+					showModal: true,
 				}
 			}
 
 			localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
 			return { ...prev, players: updatedPlayers, pointsError: '' }
 		})
-
 	}
-
-
 
 	const handleGameAction = (action: 'leave' | 'reset-zero' | 'reset-min') => {
 		setGameState(prev => {
@@ -127,6 +127,19 @@ const GamePage = () => {
 		})
 	}
 
+	const hdlRestartGame = () => {
+		localStorage.removeItem('WINNER')
+		localStorage.removeItem('SCORES')
+		window.location.reload()
+	}
+
+	const hdlExitGame = () => {
+		localStorage.removeItem('SCORES')
+		localStorage.removeItem('WINNER')
+		localStorage.removeItem('PLAYERS')
+		navigate('/wellcome')
+	}
+
 	return (
 		<main className='w-screen h-dvh text-neutral-700 dark:text-neutral-200 flex flex-col gap-8 sm:gap-12 items-center px-2 sm:px-[5vw] py-[3vh] relative'>
 			<GameHeader />
@@ -170,24 +183,43 @@ const GamePage = () => {
 						{gameState.currentWinner?.name}
 					</h1>
 					<article className='w-full flex flex-col justify-center items-center gap-4 text-neutral-100 font-medium'>
-						<button
-							className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
-							onClick={() => handleGameAction('leave')}
-						>
-							{t('gamePage.buttonLeaveGame')}
-						</button>
-						<button
-							className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
-							onClick={() => handleGameAction('reset-zero')}
-						>
-							{t('gamePage.buttonFromZero')}
-						</button>
-						<button
-							className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
-							onClick={() => handleGameAction('reset-min')}
-						>
-							{t('gamePage.buttonFromMin')}
-						</button>
+						{gameState.players.length <= 2 ? (
+							<>
+								<button
+									className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+									onClick={hdlExitGame}
+								>
+									{t('header.leaveButton')}
+								</button>
+								<button
+									className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+									onClick={hdlRestartGame}
+								>
+									{t('header.restartButton')}
+								</button>
+							</>
+						) : (
+							<>
+								<button
+									className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+									onClick={() => handleGameAction('leave')}
+								>
+									{t('gamePage.buttonLeaveGame')}
+								</button>
+								<button
+									className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+									onClick={() => handleGameAction('reset-zero')}
+								>
+									{t('gamePage.buttonFromZero')}
+								</button>
+								<button
+									className='w-full border border-sky-600 bg-sky-600 rounded py-2 px-4 hover:scale-105 transition-all duration-300'
+									onClick={() => handleGameAction('reset-min')}
+								>
+									{t('gamePage.buttonFromMin')}
+								</button>
+							</>
+						)}
 					</article>
 				</section>
 			</Modal>

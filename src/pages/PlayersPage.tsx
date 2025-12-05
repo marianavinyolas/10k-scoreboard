@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-
-
 const PlayersPage = () => {
 	const { t } = useTranslation('Pages')
 	const navigate = useNavigate()
@@ -67,7 +65,10 @@ const PlayersPage = () => {
 							htmlFor='new-name'
 							className='text-sm px-1'
 						>{`${t('playersPage.inputLabel')}`}</label>
-						<form onSubmit={(e) =>hdlAddPlayer(e)} className='w-full h-12 flex gap-2'>
+						<form
+							onSubmit={e => hdlAddPlayer(e)}
+							className='w-full h-12 flex gap-2'
+						>
 							<input
 								id='new-name'
 								type='text'
@@ -87,7 +88,7 @@ const PlayersPage = () => {
 								<IcPlus className='w-6 h-6 fill-neutral-200' />{' '}
 							</button>
 						</form>
-						<div className="min-h-[50px] px-2 pb-3 pt-1">
+						<div className='min-h-[50px] px-2 pb-3 pt-1'>
 							<ErrorList
 								errors={showNameWarning ? [t('playersPage.inputWarning')] : []}
 							/>

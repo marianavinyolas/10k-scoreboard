@@ -28,7 +28,7 @@ const GameHeader = () => {
 		localStorage.removeItem('PLAYERS')
 		navigate('/wellcome')
 	}
-	
+
 	const hdlRestartGame = () => {
 		localStorage.removeItem('WINNER')
 		localStorage.removeItem('SCORES')
@@ -89,12 +89,12 @@ const GameHeader = () => {
 			</section>
 			<Modal isOpen={isOpen}>
 				<section className='flex flex-col gap-8 items-center w-full text-neutral-700 dark:text-neutral-200 relative'>
-				<button
-					onClick={() => setIsOpen(false)}
-					className='w-8 h-8 flex items-center justify-center rounded absolute -top-2 -right-2'
-				>
-					<IcClose className='w-4 h-4 fill-neutral-700 dark:fill-neutral-300 ' />
-				</button>
+					<button
+						onClick={() => setIsOpen(false)}
+						className='w-8 h-8 flex items-center justify-center rounded absolute -top-2 -right-2'
+					>
+						<IcClose className='w-4 h-4 fill-neutral-700 dark:fill-neutral-300 ' />
+					</button>
 					<article className='flex flex-col items-center gap-6 py-4'>
 						<h2 className='text-2xl font-bold'>
 							{`${t('header.leaveTitle')}`}

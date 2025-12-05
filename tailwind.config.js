@@ -5,14 +5,14 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-        primary: {
-          light: '#4ADE80',
-          dark: '#22C55E', 
-        },
-        secondary: {
-          light: '#60A5FA', 
-          dark: '#3B82F6', 
-        },
+				primary: {
+					light: '#4ADE80',
+					dark: '#22C55E',
+				},
+				secondary: {
+					light: '#60A5FA',
+					dark: '#3B82F6',
+				},
 			},
 			keyframes: {
 				slideIn: {

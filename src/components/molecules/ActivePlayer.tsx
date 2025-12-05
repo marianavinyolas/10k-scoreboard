@@ -52,7 +52,11 @@ const ActivePlayer: FC<IActivePlayerProps> = ({
 						onClick={() => onAddScore(player.id, newScore || 0)}
 						disabled={invalidScore}
 					>
-						{newScore ? <IcPlus className='w-5 h-5 fill-neutral-200' /> : <IcChevron className='w-5 h-5 fill-neutral-200 rotate-180' /> }
+						{newScore ? (
+							<IcPlus className='w-5 h-5 fill-neutral-200' />
+						) : (
+							<IcChevron className='w-5 h-5 fill-neutral-200 rotate-180' />
+						)}
 					</button>
 				</div>
 			</article>

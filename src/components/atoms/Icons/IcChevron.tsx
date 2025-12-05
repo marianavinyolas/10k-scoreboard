@@ -1,7 +1,7 @@
 import React from 'react'
 import type { IIconProps } from './Icons.interfaces'
 
- const IcChevron = ({ className }: IIconProps) => (
+const IcChevron = ({ className }: IIconProps) => (
 	<svg
 		viewBox='0 0 11 6'
 		xmlns='http://www.w3.org/2000/svg'

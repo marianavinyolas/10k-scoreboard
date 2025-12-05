@@ -1,5 +1,5 @@
-import { useEffect } from "react"
-import ReactConfetti from "react-confetti"
+import { useEffect } from 'react'
+import ReactConfetti from 'react-confetti'
 
 interface ICustomConfetti {
 	onWinner: boolean
@@ -7,10 +7,8 @@ interface ICustomConfetti {
 }
 
 const CustomConfetti = ({ onWinner, winnerName }: ICustomConfetti) => {
-	useEffect(() => {
+	useEffect(() => {}, [onWinner])
 
-	}, [onWinner])
-	
 	return (
 		<ReactConfetti
 			recycle={false}

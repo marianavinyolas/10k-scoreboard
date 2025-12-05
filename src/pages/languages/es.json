@@ -1,48 +1,48 @@
 {
-  "header": {
-    "spanish": "Español",
-    "english": "Inglés",
-    "leaveTitle": "Finalizar o reiniciar el juego",
-    "leaveDescription": "Puedes elegir abandonar el juego, o reiniciar con los mismos jugadores",
-    "cancelButton": "Volver",
-    "restartButton": "Reiniciar",
-    "leaveButton": "Finalizar"
-  },
-  "wellcomePage": {
-    "title": "Bienvenidos",
-    "name": "10.000",
-    "button": "Comenzar"
-  },
-  "playersPage": {
-    "title": "Agregar jugadores",
-    "text": "Ingresar al menos 2 jugadores",
-    "inputLabel": "Nombre",
-    "inputWarning": "Este nombre ya existe!",
-    "buttonContinue": "Continuar",
-    "buttonAdd": "Agregar"
-  },
-  "leaderboardPage": {
-    "title": "Posiciones"
-  },
-  "editPage": {
-    "title": "Editar jugadores",
-    "addPlayer": "Agregar jugador",
-    "buttonCancel": "Cancelar",
-    "buttonConfirm": "Confirmar",
-    "buttonDelete": "Eliminar",
-    "buttonEdit": "Editar",
-    "deletePlayerTitle": "Eliminar jugador",
-    "deletePlayerDescription": "¿Estás seguro de querer eliminar este jugador del juego?",
-    "editScoreLabel": "Puntos",
-    "editPlayerTitle": "Editar jugador"
-  },
-  "gamePage": {
-    "scorePlaceholder": "Puntos",
-    "overflowError": "El puntaje no puede ser mayor a 10.000",
-    "congratulationWinner": "Felicitaciones",
-    "subtitleWinner": "Has alcanzado 10,000 puntos!",
-    "buttonLeaveGame": "Salir y dejar continuar el juego",
-    "buttonFromZero": "Reiniciar desde 0",
-    "buttonFromMin": "Reiniciar desde puntaje mínimo"
-  }
+	"header": {
+		"spanish": "Español",
+		"english": "Inglés",
+		"leaveTitle": "Finalizar o reiniciar el juego",
+		"leaveDescription": "Puedes elegir abandonar el juego, o reiniciar con los mismos jugadores",
+		"cancelButton": "Volver",
+		"restartButton": "Reiniciar",
+		"leaveButton": "Finalizar"
+	},
+	"wellcomePage": {
+		"title": "Bienvenidos",
+		"name": "10.000",
+		"button": "Comenzar"
+	},
+	"playersPage": {
+		"title": "Agregar jugadores",
+		"text": "Ingresar al menos 2 jugadores",
+		"inputLabel": "Nombre",
+		"inputWarning": "Este nombre ya existe!",
+		"buttonContinue": "Continuar",
+		"buttonAdd": "Agregar"
+	},
+	"leaderboardPage": {
+		"title": "Posiciones"
+	},
+	"editPage": {
+		"title": "Editar jugadores",
+		"addPlayer": "Agregar jugador",
+		"buttonCancel": "Cancelar",
+		"buttonConfirm": "Confirmar",
+		"buttonDelete": "Eliminar",
+		"buttonEdit": "Editar",
+		"deletePlayerTitle": "Eliminar jugador",
+		"deletePlayerDescription": "¿Estás seguro de querer eliminar este jugador del juego?",
+		"editScoreLabel": "Puntos",
+		"editPlayerTitle": "Editar jugador"
+	},
+	"gamePage": {
+		"scorePlaceholder": "Puntos",
+		"overflowError": "El puntaje no puede ser mayor a 10.000",
+		"congratulationWinner": "Felicitaciones",
+		"subtitleWinner": "Has alcanzado 10,000 puntos!",
+		"buttonLeaveGame": "Salir y dejar continuar el juego",
+		"buttonFromZero": "Reiniciar desde 0",
+		"buttonFromMin": "Reiniciar desde puntaje mínimo"
+	}
 }
