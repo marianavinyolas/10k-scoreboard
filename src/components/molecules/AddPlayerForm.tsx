@@ -1,4 +1,5 @@
 import { IPlayer } from '@interfaces'
+import { getPlayersFromStorage, isUniqueName, saveGamePlayers } from '@utils'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -17,15 +18,11 @@ const AddPlayerForm = ({
 
 	const [newName, setNewName] = useState('')
 	const [showNameWarning, setShowNameWarning] = useState(false)
-	const players = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
+	const players = getPlayersFromStorage()
 
 	const hdlNewName = (value: string) => {
 		setNewName(value)
-		if (players.includes(value)) {
-			setShowNameWarning(true)
-		} else {
-			setShowNameWarning(false)
-		}
+		setShowNameWarning(!isUniqueName(value, players))
 	}
 
 	const hdlAddPlayer = () => {
@@ -36,8 +33,7 @@ const AddPlayerForm = ({
 			id: playersList.length,
 		}
 		const updatedPlayers = [...playersList, newPlayer]
-		localStorage.setItem('SCORES', JSON.stringify(updatedPlayers))
-		localStorage.setItem('PLAYERS', JSON.stringify([...players, newName]))
+		saveGamePlayers(updatedPlayers)
 
 		setPlayersList(updatedPlayers)
 		setIsOpen(false)

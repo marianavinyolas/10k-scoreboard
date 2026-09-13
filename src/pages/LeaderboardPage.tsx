@@ -1,6 +1,7 @@
 import { IPlayer } from '@interfaces'
 import { InactivePlayer, TypingMachine } from '@molecules'
 import { GameHeader } from '@organisms'
+import { loadGamePlayers } from '@utils'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -10,26 +11,9 @@ const LeaderboardPage = () => {
 	const [, setIsDone] = useState(false)
 
 	useEffect(() => {
-		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
+		const ranking = [...loadGamePlayers()].sort((a, b) => b.score - a.score)
 
-		if (scores.length === 0) {
-			let ranking = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
-			ranking = ranking.map((name: string, index: number) => ({
-				name,
-				active: index === 0,
-				score: 0,
-				id: index,
-			}))
-			setScoresList(ranking)
-		} else {
-			const sortedScores = scores.sort(
-				(a: IPlayer, b: IPlayer) => b.score - a.score
-			)
-
-			const ranking = [...sortedScores]
-
-			setScoresList(ranking)
-		}
+		setScoresList(ranking)
 	}, [])
 
 	return (

@@ -2,26 +2,33 @@ import { ReactNode, useEffect, useState } from 'react'
 import i18next from 'i18next'
 import { ToggleButton } from '@molecules'
 import { IcMoon, IcSun } from '@atoms'
+import {
+	applyTheme,
+	getStoredLanguage,
+	getStoredTheme,
+	setStoredLanguage,
+	setStoredTheme,
+} from '@utils'
 interface ISetupHeaderProps {
 	items: string[]
 }
 
 const SetupHeader = ({ items }: ISetupHeaderProps) => {
-	const currentLanguage = localStorage.getItem('LANGUAGE') || 'es'
-	const currentTheme = localStorage.getItem('THEME') || 'light'
+	const currentLanguage = getStoredLanguage()
+	const currentTheme = getStoredTheme()
 
 	const [selectedLanguage, setSelectedLanguage] =
 		useState<string>(currentLanguage)
 	const [selectedTheme, setSelectedTheme] = useState<string>(currentTheme)
 
 	useEffect(() => {
-		localStorage.setItem('LANGUAGE', selectedLanguage)
+		setStoredLanguage(selectedLanguage)
 		i18next.changeLanguage(selectedLanguage)
 	}, [selectedLanguage])
 
 	useEffect(() => {
-		document.documentElement.classList.toggle('dark', selectedTheme === 'dark')
-		localStorage.setItem('THEME', selectedTheme)
+		applyTheme(selectedTheme)
+		setStoredTheme(selectedTheme)
 	}, [selectedTheme])
 
 	interface ILanguageOptions {

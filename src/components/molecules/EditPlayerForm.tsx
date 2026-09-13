@@ -1,4 +1,6 @@
 import { IPlayer } from '@interfaces'
+import { MAX_SCORE, SCORE_STEP } from '@constants'
+import { getPlayersFromStorage, isUniqueName, saveGamePlayers } from '@utils'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -21,7 +23,7 @@ const EditPlayerForm = ({
 	const [newScore, setNewScore] = useState(player?.score ?? 0)
 
 	const [showNameWarning, setShowNameWarning] = useState(false)
-	const players = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
+	const players = getPlayersFromStorage()
 	useEffect(() => {
 		setNewName(player?.name ?? '')
 		setNewScore(player?.score ?? 0)
@@ -29,11 +31,7 @@ const EditPlayerForm = ({
 
 	const hdlNewName = (value: string) => {
 		setNewName(value)
-		if (players.includes(value)) {
-			setShowNameWarning(true)
-		} else {
-			setShowNameWarning(false)
-		}
+		setShowNameWarning(!isUniqueName(value, players))
 	}
 	const hdlNewScore = (value: string) => {
 		setNewScore(parseInt(value))
@@ -46,11 +44,7 @@ const EditPlayerForm = ({
 				: item
 		)
 		setPlayersList(newList)
-		localStorage.setItem('SCORES', JSON.stringify(newList))
-		localStorage.setItem(
-			'PLAYERS',
-			JSON.stringify(newList.map(item => item.name))
-		)
+		saveGamePlayers(newList)
 		onCancel()
 	}
 
@@ -94,9 +88,9 @@ const EditPlayerForm = ({
 							className='w-full bg-transparent px-2 border border-sky-600 dark:border-sky-400 rounded focus:outline-0 focus:ring-0'
 							onChange={e => hdlNewScore(e.target.value)}
 							value={newScore}
-							step={50}
+							step={SCORE_STEP}
 							min={0}
-							max={9950}
+							max={MAX_SCORE - SCORE_STEP}
 						/>
 					</div>
 				</fieldset>

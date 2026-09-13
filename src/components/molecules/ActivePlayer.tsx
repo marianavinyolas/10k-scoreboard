@@ -1,5 +1,7 @@
 import { IcChevron, IcPlus } from '@atoms'
 import { IPlayer } from '@interfaces'
+import { SCORE_STEP } from '@constants'
+import { isValidScore } from '@utils'
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -19,11 +21,7 @@ const ActivePlayer: FC<IActivePlayerProps> = ({
 
 	const hdlScoreChange = (value: string) => {
 		const newScore = value === '' ? 0 : parseInt(value)
-		if (newScore % 50 !== 0) {
-			setInvalidScore(true)
-		} else {
-			setInvalidScore(false)
-		}
+		setInvalidScore(!isValidScore(newScore))
 		setNewScore(newScore)
 	}
 
@@ -43,7 +41,7 @@ const ActivePlayer: FC<IActivePlayerProps> = ({
 						className='w-20 h-full px-2 focus:outline-0 focus:ring-0 rounded-none bg-transparent placeholder:text-sm'
 						onChange={e => hdlScoreChange(e.target.value)}
 						value={newScore || ''}
-						step={50}
+						step={SCORE_STEP}
 						min={0}
 						placeholder={t('gamePage.scorePlaceholder')}
 					/>

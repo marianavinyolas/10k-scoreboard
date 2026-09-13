@@ -1,6 +1,12 @@
 import { IcPlus } from '@atoms'
 import { ErrorList, TypingMachine } from '@molecules'
 import { SetupHeader } from '@organisms'
+import { MIN_PLAYERS } from '@constants'
+import {
+	getPlayersFromStorage,
+	isUniqueName,
+	savePlayersToStorage,
+} from '@utils'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -16,21 +22,16 @@ const PlayersPage = () => {
 	const [newName, setNewName] = useState('')
 
 	useEffect(() => {
-		const players = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
-		setPlayers(players)
+		setPlayers(getPlayersFromStorage())
 	}, [])
 
 	const hdlNewName = (value: string) => {
 		setNewName(value)
-		if (players.includes(value)) {
-			setShowNameWarning(true)
-		} else {
-			setShowNameWarning(false)
-		}
+		setShowNameWarning(!isUniqueName(value, players))
 	}
 	const hdlAddPlayer = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		if (players.includes(newName)) {
+		if (!isUniqueName(newName, players)) {
 			setShowNameWarning(true)
 		} else {
 			setPlayers(prev => [...prev, newName])
@@ -41,8 +42,8 @@ const PlayersPage = () => {
 	}
 
 	const hdlNext = () => {
-		if (players.length > 1) {
-			localStorage.setItem('PLAYERS', JSON.stringify(players))
+		if (players.length >= MIN_PLAYERS) {
+			savePlayersToStorage(players)
 			navigate('/game')
 		}
 	}
@@ -109,7 +110,7 @@ const PlayersPage = () => {
 				</article>
 				<article className='py-1'>
 					<p
-						className={`text-sm lg:text-base ${isDone && players.length < 2 ? 'animate-pulse' : 'hidden'}`}
+						className={`text-sm lg:text-base ${isDone && players.length < MIN_PLAYERS ? 'animate-pulse' : 'hidden'}`}
 					>
 						{t('playersPage.text')}
 					</p>
@@ -117,7 +118,7 @@ const PlayersPage = () => {
 				<article className='w-full flex justify-center pb-4'>
 					<button
 						onClick={hdlNext}
-						disabled={players.length < 2}
+						disabled={players.length < MIN_PLAYERS}
 						className='bg-sky-700 text-white text-lg rounded px-8 py-2 disabled:bg-slate-500'
 					>{`${t('playersPage.buttonContinue')}`}</button>
 				</article>

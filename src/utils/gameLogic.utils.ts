@@ -86,7 +86,10 @@ export const getMinimumScore = (players: IPlayer[]): number => {
  * @param playerId - ID of player to remove
  * @returns Updated array without the removed player
  */
-export const removePlayer = (players: IPlayer[], playerId: number): IPlayer[] => {
+export const removePlayer = (
+	players: IPlayer[],
+	playerId: number
+): IPlayer[] => {
 	return players
 		.filter(player => player.id !== playerId)
 		.map((player, index) => ({ ...player, id: index }))

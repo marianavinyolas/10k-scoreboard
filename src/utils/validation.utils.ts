@@ -20,7 +20,10 @@ export const isValidScore = (score: number): boolean => {
  * @param existingNames - List of existing names
  * @returns true if unique, false if already exists
  */
-export const isUniqueName = (name: string, existingNames: string[]): boolean => {
+export const isUniqueName = (
+	name: string,
+	existingNames: string[]
+): boolean => {
 	return !existingNames.includes(name)
 }
 

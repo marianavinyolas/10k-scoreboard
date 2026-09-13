@@ -1,4 +1,5 @@
 import { IPlayer } from '@interfaces'
+import { saveGamePlayers } from '@utils'
 import { useTranslation } from 'react-i18next'
 
 interface IDeletePlayerForm {
@@ -21,11 +22,7 @@ const DeletePlayerForm = ({
 			.filter(item => item.id !== player?.id)
 			.map((item, idx) => ({ ...item, id: idx }))
 		setPlayersList(newList)
-		localStorage.setItem('SCORES', JSON.stringify(newList))
-		localStorage.setItem(
-			'PLAYERS',
-			JSON.stringify(newList.map(item => item.name))
-		)
+		saveGamePlayers(newList)
 		onCancel()
 	}
 

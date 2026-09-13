@@ -1,5 +1,12 @@
 import { IcDices, IcTrophy, IcReset, IcSettings, IcClose } from '@atoms'
 import { Modal } from '@molecules'
+import {
+	applyTheme,
+	clearAllGameData,
+	clearGameSession,
+	getStoredLanguage,
+	getStoredTheme,
+} from '@utils'
 import i18next from 'i18next'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,25 +20,20 @@ const GameHeader = () => {
 
 	const [isOpen, setIsOpen] = useState(false)
 	useEffect(() => {
-		const currentLanguage = localStorage.getItem('LANGUAGE') || 'es'
-		i18next.changeLanguage(currentLanguage)
+		i18next.changeLanguage(getStoredLanguage())
 	}, [])
 
 	useEffect(() => {
-		const currentTheme = localStorage.getItem('THEME') || 'light'
-		document.documentElement.classList.toggle('dark', currentTheme === 'dark')
+		applyTheme(getStoredTheme())
 	}, [])
 
 	const hdlLeaveGame = () => {
-		localStorage.removeItem('SCORES')
-		localStorage.removeItem('WINNER')
-		localStorage.removeItem('PLAYERS')
+		clearAllGameData()
 		navigate('/wellcome')
 	}
 
 	const hdlRestartGame = () => {
-		localStorage.removeItem('WINNER')
-		localStorage.removeItem('SCORES')
+		clearGameSession()
 		if (pathname === '/game') {
 			window.location.reload()
 		} else {

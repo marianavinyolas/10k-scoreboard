@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GameHeader } from '@organisms'
+import { loadGamePlayers } from '@utils'
 
 const EditPage = () => {
 	const { t } = useTranslation('Pages')
@@ -22,22 +23,7 @@ const EditPage = () => {
 	const [player, setPlayer] = useState<IPlayer | null>(null)
 
 	useEffect(() => {
-		const scores = JSON.parse(localStorage.getItem('SCORES') || '[]')
-
-		if (scores.length === 0) {
-			let ranking = JSON.parse(localStorage.getItem('PLAYERS') || '[]')
-			ranking = ranking.map((name: string, index: number) => ({
-				name,
-				active: index === 0,
-				score: 0,
-				id: index,
-			}))
-			setPlayersList(ranking)
-		} else {
-			const ranking = [...scores]
-
-			setPlayersList(ranking)
-		}
+		setPlayersList(loadGamePlayers())
 	}, [])
 
 	const hdlOpenDelete = (playerIndex: number) => {

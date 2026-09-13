@@ -72,6 +72,33 @@ export const initializePlayers = (playerNames: string[]): IPlayer[] => {
 }
 
 /**
+ * Loads the players for the current game.
+ *
+ * Falls back to building a fresh roster from the stored names when there is no
+ * game in progress, which is what every screen needs on mount.
+ * @returns Array of players ready to render
+ */
+export const loadGamePlayers = (): IPlayer[] => {
+	const savedScores = getScoresFromStorage()
+
+	return savedScores.length
+		? savedScores
+		: initializePlayers(getPlayersFromStorage())
+}
+
+/**
+ * Persists the roster, keeping scores and names in sync.
+ *
+ * The name list is derived from the players themselves, so the two keys can
+ * never drift apart.
+ * @param players - Array of players to persist
+ */
+export const saveGamePlayers = (players: IPlayer[]): void => {
+	saveScoresToStorage(players)
+	savePlayersToStorage(players.map(player => player.name))
+}
+
+/**
  * Clears all game data from localStorage
  */
 export const clearAllGameData = (): void => {
@@ -81,6 +108,19 @@ export const clearAllGameData = (): void => {
 		localStorage.removeItem(STORAGE_KEYS.WINNER)
 	} catch (error) {
 		console.error('Error clearing game data from localStorage:', error)
+	}
+}
+
+/**
+ * Clears the current game session (scores and winner) but keeps the player list,
+ * so the same players can start a new game.
+ */
+export const clearGameSession = (): void => {
+	try {
+		localStorage.removeItem(STORAGE_KEYS.SCORES)
+		localStorage.removeItem(STORAGE_KEYS.WINNER)
+	} catch (error) {
+		console.error('Error clearing game session from localStorage:', error)
 	}
 }
 
