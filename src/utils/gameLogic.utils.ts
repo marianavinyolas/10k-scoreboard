@@ -82,6 +82,11 @@ export const getMinimumScore = (players: IPlayer[]): number => {
 
 /**
  * Removes a player from the game
+ *
+ * If the removed player held the turn, it passes to the player that comes
+ * next in the rotation, the same way a finished turn does. Removing the last
+ * player therefore hands the turn back to the first one, which keeps the
+ * round-robin order intact.
  * @param players - Array of players
  * @param playerId - ID of player to remove
  * @returns Updated array without the removed player
@@ -90,9 +95,39 @@ export const removePlayer = (
 	players: IPlayer[],
 	playerId: number
 ): IPlayer[] => {
-	return players
+	const removedIndex = players.findIndex(player => player.id === playerId)
+	if (removedIndex === -1) return players
+
+	const wasActive = players[removedIndex].active
+
+	const remaining = players
 		.filter(player => player.id !== playerId)
 		.map((player, index) => ({ ...player, id: index }))
+
+	if (!wasActive) return remaining
+
+	// The next player in the rotation takes over: the one that shifts into the
+	// deleted slot, or the first player when the deleted one was last.
+	const nextIndex = removedIndex === players.length - 1 ? 0 : removedIndex
+	return remaining.map((player, index) => ({
+		...player,
+		active: index === nextIndex,
+	}))
+}
+
+/**
+ * Makes sure exactly one player holds the turn
+ *
+ * A roster can end up without an active player, for example when a game was
+ * saved before the turn could be passed on. Promoting the first player keeps
+ * the game playable instead of leaving every player inert.
+ * @param players - Array of players
+ * @returns The same array, or one with a promoted active player
+ */
+export const ensureActivePlayer = (players: IPlayer[]): IPlayer[] => {
+	if (players.length === 0) return players
+	if (players.some(player => player.active)) return players
+	return players.map((player, index) => ({ ...player, active: index === 0 }))
 }
 
 /**

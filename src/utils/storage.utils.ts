@@ -4,6 +4,7 @@
 
 import { IPlayer } from '@interfaces'
 import { STORAGE_KEYS } from '@constants'
+import { ensureActivePlayer } from './gameLogic.utils'
 
 /**
  * Gets the list of players from localStorage
@@ -75,15 +76,18 @@ export const initializePlayers = (playerNames: string[]): IPlayer[] => {
  * Loads the players for the current game.
  *
  * Falls back to building a fresh roster from the stored names when there is no
- * game in progress, which is what every screen needs on mount.
+ * game in progress, which is what every screen needs on mount. The turn is
+ * repaired if the stored roster ended up without an active player.
  * @returns Array of players ready to render
  */
 export const loadGamePlayers = (): IPlayer[] => {
 	const savedScores = getScoresFromStorage()
 
-	return savedScores.length
+	const players = savedScores.length
 		? savedScores
 		: initializePlayers(getPlayersFromStorage())
+
+	return ensureActivePlayer(players)
 }
 
 /**
