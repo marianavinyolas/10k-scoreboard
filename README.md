@@ -49,15 +49,20 @@ This project was built using the following technologies:
 
 The app is deployed to **Vercel** at [10k-scoreboard.vercel.app](https://10k-scoreboard.vercel.app).
 
-| Setting          | Value                                 |
-| ---------------- | ------------------------------------- |
-| Framework preset | Vite                                  |
-| Install command  | `pnpm install` (pnpm 11 via Corepack) |
-| Build command    | `pnpm run build`                      |
-| Output directory | `dist`                                |
-| Node.js version  | 22                                    |
+| Setting          | Value                                     |
+| ---------------- | ----------------------------------------- |
+| Framework preset | Vite                                      |
+| Install command  | `corepack pnpm install --frozen-lockfile` |
+| Build command    | `corepack pnpm run build`                 |
+| Output directory | `dist`                                    |
+| Node.js version  | 22                                        |
 
 Pushes to `main` deploy automatically; every pull request gets a preview URL.
+
+The install and build commands go through `corepack pnpm` rather than a bare
+`pnpm` so that the exact pnpm version pinned in `package.json`
+(`packageManager: pnpm@11.10.0`) is used, without relying on Vercel to put a
+`pnpm` shim on the PATH.
 
 The project is a single-page app using the browser history API, so `vercel.json`
 rewrites every route to `/index.html` to keep deep links (e.g. `/game`) working
