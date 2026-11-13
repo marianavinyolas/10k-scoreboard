@@ -1,6 +1,6 @@
 import { IPlayer } from '@interfaces'
 import { MIN_PLAYERS } from '@constants'
-import { hasEnoughPlayers, saveGamePlayers } from '@utils'
+import { hasEnoughPlayers, removePlayer, saveGamePlayers } from '@utils'
 import { useTranslation } from 'react-i18next'
 
 interface IDeletePlayerForm {
@@ -18,14 +18,12 @@ const DeletePlayerForm = ({
 }: IDeletePlayerForm) => {
 	const { t } = useTranslation('Pages')
 
-	const remainingPlayers = playersList.filter(item => item.id !== player?.id)
+	const remainingPlayers = removePlayer(playersList, player?.id ?? -1)
 	const canDelete = hasEnoughPlayers(remainingPlayers)
 
 	const hdlDeletePlayer = () => {
-		if (!canDelete) return
-		const newList = playersList
-			.filter(item => item.id !== player?.id)
-			.map((item, idx) => ({ ...item, id: idx }))
+		if (!player || !canDelete) return
+		const newList = removePlayer(playersList, player.id)
 		setPlayersList(newList)
 		saveGamePlayers(newList)
 		onCancel()
