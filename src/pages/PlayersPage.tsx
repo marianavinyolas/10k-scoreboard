@@ -1,8 +1,9 @@
 import { IcPlus } from '@atoms'
 import { ErrorList, TypingMachine } from '@molecules'
 import { SetupHeader } from '@organisms'
-import { MIN_PLAYERS } from '@constants'
+import { MAX_PLAYERS, MIN_PLAYERS } from '@constants'
 import {
+	canAddPlayer,
 	getPlayersFromStorage,
 	isUniqueName,
 	savePlayersToStorage,
@@ -21,6 +22,8 @@ const PlayersPage = () => {
 
 	const [newName, setNewName] = useState('')
 
+	const isMaxReached = !canAddPlayer(players.length)
+
 	useEffect(() => {
 		setPlayers(getPlayersFromStorage())
 	}, [])
@@ -31,6 +34,7 @@ const PlayersPage = () => {
 	}
 	const hdlAddPlayer = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		if (!canAddPlayer(players.length)) return
 		if (!isUniqueName(newName, players)) {
 			setShowNameWarning(true)
 		} else {
@@ -84,14 +88,19 @@ const PlayersPage = () => {
 							<button
 								type='submit'
 								className='bg-sky-700 text-lg px-3 py-2 rounded disabled:bg-slate-500'
-								disabled={!newName.trim() || showNameWarning}
+								disabled={!newName.trim() || showNameWarning || isMaxReached}
 							>
 								<IcPlus className='w-6 h-6 fill-neutral-200' />{' '}
 							</button>
 						</form>
 						<div className='min-h-[50px] px-2 pb-3 pt-1'>
 							<ErrorList
-								errors={showNameWarning ? [t('playersPage.inputWarning')] : []}
+								errors={[
+									...(showNameWarning ? [t('playersPage.inputWarning')] : []),
+									...(isMaxReached
+										? [t('playersPage.maxPlayersWarning', { max: MAX_PLAYERS })]
+										: []),
+								]}
 							/>
 						</div>
 					</fieldset>

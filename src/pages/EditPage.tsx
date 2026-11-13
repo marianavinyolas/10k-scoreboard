@@ -11,7 +11,8 @@ import {
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GameHeader } from '@organisms'
-import { loadGamePlayers } from '@utils'
+import { MAX_PLAYERS } from '@constants'
+import { canAddPlayer, loadGamePlayers } from '@utils'
 
 const EditPage = () => {
 	const { t } = useTranslation('Pages')
@@ -21,6 +22,8 @@ const EditPage = () => {
 	const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
 	const [isOpenEditModal, setIsOpenEditModal] = useState(false)
 	const [player, setPlayer] = useState<IPlayer | null>(null)
+
+	const isMaxReached = !canAddPlayer(playersList.length)
 
 	useEffect(() => {
 		setPlayersList(loadGamePlayers())
@@ -72,7 +75,8 @@ const EditPage = () => {
 				))}
 				<button
 					onClick={() => setIsOpenModal(true)}
-					className='w-full flex gap-2 py-2 border border-sky-600 rounded bg-gray-100 dark:bg-slate-800 mt-4'
+					disabled={isMaxReached}
+					className='w-full flex gap-2 py-2 border border-sky-600 rounded bg-gray-100 dark:bg-slate-800 mt-4 disabled:opacity-50 disabled:cursor-not-allowed'
 				>
 					<div className='flex-1 px-2 justify-center'>
 						<span className='flex justify-center'>
@@ -83,6 +87,11 @@ const EditPage = () => {
 						<IcPlus className='w-5 h-5 fill-sky-600' />
 					</div>
 				</button>
+				{isMaxReached && (
+					<p className='text-sm text-red-500 tracking-wide font-medium pt-1'>
+						{t('playersPage.maxPlayersWarning', { max: MAX_PLAYERS })}
+					</p>
+				)}
 			</section>
 			<Modal isOpen={isOpenModal}>
 				<AddPlayerForm

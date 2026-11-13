@@ -11,6 +11,9 @@ export const SCORE_STEP = 50
 /** Minimum number of players required to start the game */
 export const MIN_PLAYERS = 2
 
+/** Maximum number of players allowed in a game */
+export const MAX_PLAYERS = 10
+
 /** Score validation rules */
 export const SCORE_VALIDATION = {
 	MAX: MAX_SCORE,

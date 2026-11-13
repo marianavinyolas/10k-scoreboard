@@ -1,5 +1,11 @@
 import { IPlayer } from '@interfaces'
-import { getPlayersFromStorage, isUniqueName, saveGamePlayers } from '@utils'
+import { MAX_PLAYERS } from '@constants'
+import {
+	canAddPlayer,
+	getPlayersFromStorage,
+	isUniqueName,
+	saveGamePlayers,
+} from '@utils'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -20,12 +26,15 @@ const AddPlayerForm = ({
 	const [showNameWarning, setShowNameWarning] = useState(false)
 	const players = getPlayersFromStorage()
 
+	const isMaxReached = !canAddPlayer(playersList.length)
+
 	const hdlNewName = (value: string) => {
 		setNewName(value)
 		setShowNameWarning(!isUniqueName(value, players))
 	}
 
 	const hdlAddPlayer = () => {
+		if (!canAddPlayer(playersList.length)) return
 		const newPlayer = {
 			name: newName,
 			active: false,
@@ -66,6 +75,10 @@ const AddPlayerForm = ({
 					<p className='text-sm text-red-500 tracking-wide font-medium pt-1'>
 						{t('playersPage.inputWarning')}
 					</p>
+				) : isMaxReached ? (
+					<p className='text-sm text-red-500 tracking-wide font-medium pt-1'>
+						{t('playersPage.maxPlayersWarning', { max: MAX_PLAYERS })}
+					</p>
 				) : (
 					<span className='text-sm p-2 bg-transparent' />
 				)}
@@ -77,7 +90,7 @@ const AddPlayerForm = ({
 				<button
 					className='primary-button'
 					onClick={() => hdlAddPlayer()}
-					disabled={showNameWarning || !newName}
+					disabled={showNameWarning || !newName || isMaxReached}
 				>
 					{t('editPage.buttonConfirm')}
 				</button>
