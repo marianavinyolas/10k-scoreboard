@@ -1,5 +1,6 @@
 import { IPlayer } from '@interfaces'
-import { saveGamePlayers } from '@utils'
+import { MIN_PLAYERS } from '@constants'
+import { hasEnoughPlayers, saveGamePlayers } from '@utils'
 import { useTranslation } from 'react-i18next'
 
 interface IDeletePlayerForm {
@@ -17,7 +18,11 @@ const DeletePlayerForm = ({
 }: IDeletePlayerForm) => {
 	const { t } = useTranslation('Pages')
 
+	const remainingPlayers = playersList.filter(item => item.id !== player?.id)
+	const canDelete = hasEnoughPlayers(remainingPlayers)
+
 	const hdlDeletePlayer = () => {
+		if (!canDelete) return
 		const newList = playersList
 			.filter(item => item.id !== player?.id)
 			.map((item, idx) => ({ ...item, id: idx }))
@@ -39,9 +44,18 @@ const DeletePlayerForm = ({
 				<button className='secondary-button' onClick={onCancel}>
 					{`${t('editPage.buttonCancel')}`}
 				</button>
-				<button onClick={hdlDeletePlayer} className='primary-button'>
+				<button
+					onClick={hdlDeletePlayer}
+					className='primary-button disabled:opacity-50 disabled:cursor-not-allowed'
+					disabled={!canDelete}
+				>
 					{`${t('editPage.buttonDelete')}`}
 				</button>
+				{!canDelete && (
+					<p className='text-sm text-red-500 tracking-wide font-medium pt-1'>
+						{t('editPage.deletePlayerMinWarning', { min: MIN_PLAYERS })}
+					</p>
+				)}
 			</article>
 		</section>
 	)

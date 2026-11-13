@@ -18,6 +18,7 @@
 		"text": "Ingresar al menos 2 jugadores",
 		"inputLabel": "Nombre",
 		"inputWarning": "Este nombre ya existe!",
+		"maxPlayersWarning": "Máximo {{max}} jugadores permitidos",
 		"buttonContinue": "Continuar",
 		"buttonAdd": "Agregar"
 	},
@@ -33,6 +34,7 @@
 		"buttonEdit": "Editar",
 		"deletePlayerTitle": "Eliminar jugador",
 		"deletePlayerDescription": "¿Estás seguro de querer eliminar este jugador del juego?",
+		"deletePlayerMinWarning": "Necesitas al menos {{min}} jugadores para continuar",
 		"editScoreLabel": "Puntos",
 		"editPlayerTitle": "Editar jugador"
 	},

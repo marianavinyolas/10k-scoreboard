@@ -2,7 +2,16 @@
  * Validation Utils - Reusable validation functions
  */
 
-import { SCORE_VALIDATION } from '@constants'
+import { MAX_PLAYERS, SCORE_VALIDATION } from '@constants'
+
+/**
+ * Checks if another player can be added without exceeding MAX_PLAYERS
+ * @param count - Current number of players
+ * @returns true if below the maximum, false otherwise
+ */
+export const canAddPlayer = (count: number): boolean => {
+	return count < MAX_PLAYERS
+}
 
 /**
  * Validates if a score is valid (multiple of SCORE_STEP)
