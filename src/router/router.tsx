@@ -39,7 +39,7 @@ const Router = createBrowserRouter(
 		},
 	],
 	{
-		basename: '/10k-scoreboard',
+		basename: '/',
 	}
 )
 
